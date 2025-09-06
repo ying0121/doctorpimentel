@@ -312,6 +312,10 @@
             background-color: #707070 !important;
         }
 
+        .bg-inactive {
+            background-color: lightgray !important;
+        }
+
         .scroll-y {
             overflow-y: scroll !important;
         }
@@ -441,18 +445,19 @@
                 let html = ""
                 result.forEach(item => {
                     const cost = item.cost
+                    const status = item.status
                     // here
                     html += `<div class="col-md-4 mb-5 px-5">
                                  <div class="service-card-item">
                                      <div class="bordered round-xl w-95 static-body">
                                          <div class="ribbon ribbon-end ribbon-clip" style="min-height: 150px;">
-                                             <div class="ribbon-label ${cost > 0 ? "bg-danger" : "bg-success"} text-white">
+                                             <div class="ribbon-label text-white ${status == 0 ? "bg-inactive" : (cost > 0 ? "bg-danger" : "bg-success")}">
                                                  ${cost > 0 ? "$" + cost : "FREE"}
                                                  <span class="ribbon-inner text-secondary"></span>
                                              </div>
                                              <img src="<?php echo base_url(); ?>assets/service/image/${item.image}" class="w-100 round-top-xl" />
                                          </div>
-                                         <div class="w-100 text-center d-flex justify-content-center align-items-center" style="min-height: 80px;">
+                                         <div class="w-100 text-center d-flex justify-content-center align-items-center ${status == 0 ? "bg-inactive" : ""}" style="min-height: 80px;">
                                              <div class="mb-2" data-id="${item.id}">
                                                  <p class="pt-2" style="font-size: 21px;">${item.title}</p>
                                                  <div class="d-flex justify-content-center align-items-center">

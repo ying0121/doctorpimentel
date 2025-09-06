@@ -312,6 +312,10 @@
             background-color: #707070 !important;
         }
 
+        .bg-inactive {
+            background-color: lightgray !important;
+        }
+
         .scroll-y {
             overflow-y: scroll !important;
         }
@@ -339,16 +343,15 @@
                                                 <div class="col-md-3 mb-5 px-5">
                                                     <div class="letter-card-item">
                                                         <div class="bordered round-xl w-95 static-body">
-                                                            <div style="min-height: 150px;" class="d-flex justify-content-center align-items-center ribbon ribbon-end ribbon-clip">
-                                                                <div class="ribbon-label text-white <?php if ($letters[$i]['cost'] > 0) echo "bg-danger";
-                                                                                                    else echo "bg-success"; ?>">
+                                                            <div style="min-height: 150px;" class="d-flex justify-content-center align-items-center ribbon ribbon-end ribbon-clip <?php if ($letters[$i]["status"] == 0) echo "bg-inactive"; ?>">
+                                                                <div class="ribbon-label text-white <?php if ($letters[$i]['status'] == 0) echo "bg-inactive"; else if ($letters[$i]['cost'] > 0) echo "bg-danger"; else echo "bg-success"; ?>">
                                                                     <?php if ($letters[$i]['cost'] > 0) echo "$" . $letters[$i]['cost'];
                                                                     else echo "FREE"; ?>
                                                                     <span class="ribbon-inner text-secondary"></span>
                                                                 </div>
                                                                 <i class="fa fa-<?php echo $letters[$i]['icon'] ?>" style="font-size: 120px;"></i>
                                                             </div>
-                                                            <div class="w-100 text-center d-flex justify-content-center align-items-center" style="min-height: 80px;">
+                                                            <div class="w-100 text-center d-flex justify-content-center align-items-center <?php if ($letters[$i]["status"] == 0) echo "bg-inactive"; ?>" style="min-height: 80px;">
                                                                 <div class="mb-2" data-id="<?php echo $letters[$i]['id'] ?>">
                                                                     <p class="pt-2 px-3" style="font-size: 21px;"><?php echo $letters[$i]['title'] ?></p>
                                                                     <div class="d-flex justify-content-center align-items-center">
