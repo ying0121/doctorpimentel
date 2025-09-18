@@ -16,7 +16,6 @@
                                         <input type = 'hidden' class = 'base_url' value = "<?php echo base_url(); ?>" />
                                         <input type="hidden" id="chosen_id" value="<?php echo $result['id']; ?>" />
                                     </div>
-                                    
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <h6>Author</h6>
@@ -29,7 +28,6 @@
                                             <input type="text" name = 'newsletter_date' id = 'newsletter_date' class="form-control datepicker">
                                         </div>
                                     </div>
- 
                                 </div>
                                 <div class="row">
                                     <div class="col-md-4">
@@ -129,10 +127,8 @@
                 </div>
             </div>
         </div>
-        
     </body>
     <script>
-        console.log($('.base_url').val())
         $('#newsletter_desc_en').summernote({
             tabsize: 2,
             height: 700,
@@ -178,33 +174,11 @@
                     processData: false,
                     dataType: "text",
                     success: function (data) {
-                        if(data == "ok"){
-                            $.notify({
-                                icon: "add_alert",
-                                message: "Action Successful"
-
-                                }, {
-                                type: 'info',
-                                timer: 1000,
-                                placement: {
-                                    from: 'top',
-                                    align: 'center'
-                                }
-                            });
+                        if(data == "true"){
+                            toastr.success("Saved Successfully!")
                         }
                         else{
-                            $.notify({
-                                icon: "add_alert",
-                                message: "Action failed"
-
-                                }, {
-                                type: 'info',
-                                timer: 1000,
-                                placement: {
-                                    from: 'top',
-                                    align: 'center'
-                                }
-                            });
+                            toastr.error("Action Failed")
                         }
                     }
                 });
@@ -227,9 +201,6 @@
         loadEducationMateiral();
 
         function loadEducationMateiral() {
-
-           
-
             var fd = new FormData();
             fd.append('med_cond',JSON.stringify($("#newsletter_med_cond").val()));
             $.ajax({

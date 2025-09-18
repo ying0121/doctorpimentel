@@ -8,7 +8,7 @@ class Newsletter extends CI_Controller
 	{
 		parent::__construct();
 		$this->load->model('ContactInfo_model');
-
+		$this->load->model('AreaToggle_model');
 		$this->load->model('Newsletter_model');
 		$this->load->helper('url');
 
@@ -19,6 +19,7 @@ class Newsletter extends CI_Controller
 	{
 		$data['sideitem'] = 'newsletter';
 		$data['contact_info'] = $this->ContactInfo_model->read();
+		$data['area_toggle'] = $this->AreaToggle_model->read();
 
 		$data['phones'] = $this->Newsletter_model->getusersbyphones();
 		$data['images'] = $this->Newsletter_model->getimages();
@@ -29,10 +30,25 @@ class Newsletter extends CI_Controller
 		if ($this->session->userdata('userid') == '' || $this->session->userdata('userid') == null)
 			redirect('central', 'refresh');
 
+		$data['contact_info'] = $this->ContactInfo_model->read();
+		$data['area_toggle'] = $this->AreaToggle_model->read();
 		$data['sideitem'] = 'newsletter';
 		$id = $this->input->get('id');
 		$data['id'] = $id;
 		$data['result'] = $this->Newsletter_model->viewrenewsletter($id);
+		$data['medConditions'] = $this->Newsletter_model->getMedicationConditions();
+
+		$this->load->view('local/viewrenewsletter', $data);
+	}
+	public function renderNewsLetter($link)
+	{
+		// get id from newsletterdata table
+		$newsletter = $this->Newsletter_model->getByLink($link);
+
+		$data['contact_info'] = $this->ContactInfo_model->read();
+		$data['area_toggle'] = $this->AreaToggle_model->read();
+		$data['sideitem'] = 'newsletter';
+		$data['result'] = $this->Newsletter_model->viewrenewsletter($newsletter["id"]);
 		$data['medConditions'] = $this->Newsletter_model->getMedicationConditions();
 
 		$this->load->view('local/viewrenewsletter', $data);
@@ -48,12 +64,20 @@ class Newsletter extends CI_Controller
 	}
 	public function addnewsletter()
 	{
+		//generate 8 length string to verify
+		$characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+		$c_length = strlen($characters);
+		$link = '';
+		for ($i = 0; $i < 8; $i++) {
+			$link .= $characters[rand(0, $c_length - 1)];
+		}
+
 		$en_sub = $this->input->post('en_sub');
 		$es_sub = $this->input->post('es_sub');
 		$author = $this->input->post('author');
 		$date = $this->input->post('date');
 
-		$result = $this->Newsletter_model->addnewsletter($en_sub, $es_sub, $author, $date);
+		$result = $this->Newsletter_model->addnewsletter($en_sub, $es_sub, $author, $date, $link);
 		if ($result)
 			echo json_encode($result);
 		else {
