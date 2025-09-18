@@ -336,11 +336,11 @@
             { data: 'id',
                 render: function (data, type, row) {
                     return `
-                    <div idkey="`+row.id+`">
-                    <span class="btn btn-icon btn-sm btn-light-primary newsimgbtn" imgid="`+row.img+`"><i class="fas fa-image"></i></span>
+                    <div idkey="${row.id}">
+                    <span class="btn btn-icon btn-sm btn-light-primary newsimgbtn" imgid="${row.img}"><i class="fas fa-image"></i></span>
                     <span class="btn btn-icon btn-sm btn-light-primary sendsmsbtn"><i class="fa fa-mobile"></i></span>
                     <span class="btn btn-icon btn-sm btn-light-primary sendemailbtn"><i class="fa fa-envelope"></i></span>
-                    <a href="<?php echo base_url() ?>local/newsletter/viewrenewsletter?id=" + row.id}" target="_blank"><span class="btn btn-icon btn-sm btn-light-warning newslettereditbtn"><i class="fa fa-eye"></i></span></a>
+                    <a href="<?php echo base_url() ?>local/newsletter/viewrenewsletter?id=${row.id}" target="_blank"><span class="btn btn-icon btn-sm btn-light-warning newslettereditbtn"><i class="fa fa-eye"></i></span></a>
                     <span class="btn btn-icon btn-sm btn-light-danger  newsletterdeletebtn"><i class="fas fa-trash"></i></span>
                     </div>
                     `
@@ -358,81 +358,45 @@
         fd.append('author',$("#newsletter_author").val());
         fd.append('date',$("#newsletter_date").val());
         $.ajax({
-            url: '<?php echo base_url() ?>local/newsletter/addnewsletter',
-            type: 'post',
-            data: fd,
-            contentType: false,
-            processData: false,
-            dataType: "text",
-            success: function (data) {
-              if(data == "ok"){
-                newslettertable.ajax.reload()
-              }
-              else{
-                $.notify({
-                  icon: "add_alert",
-                  message: "Action failed"
-
-                  }, {
-                  type: 'info',
-                  timer: 1000,
-                  placement: {
-                    from: 'top',
-                    align: 'center'
-                  }
-                });
-              }
+          url: '<?php echo base_url() ?>local/newsletter/addnewsletter',
+          type: 'post',
+          data: fd,
+          contentType: false,
+          processData: false,
+          dataType: "text",
+          success: function (data) {
+            if(data == "ok"){
+              toastr.success("Created Successfully!")
+              newslettertable.ajax.reload()
+            } else {
+              toastr.error("Action Failed!")
             }
+          }
         });
       });
       $(document).on("click",".newsletterstatus",function(){
-          var tmpcheck = 0;
-          if($(this).prop("checked")){
-              tmpcheck = 1;
+        var tmpcheck = 0;
+        if($(this).prop("checked")) {
+          tmpcheck = 1;
+        } else{
+          tmpcheck = 0;
+        }
+        $.ajax ({
+          url: '<?php echo base_url() ?>local/newsletter/editnewsletterstatus',
+          method: "POST",
+          data: { id: $(this).parent().parent().parent().attr("idkey"), value: tmpcheck },
+          dataType: "text",
+          success: function (data) {
+            if(data == "ok"){
+              toastr.success("Updated Successfully!")
+            } else{
+              toastr.error("Action Failed!")
+            }
           }
-          else{
-              tmpcheck = 0;
-          }
-          $.ajax ({
-              url: '<?php echo base_url() ?>local/newsletter/editnewsletterstatus',
-              method: "POST",
-              data: {id:$(this).parent().parent().parent().attr("idkey"),value:tmpcheck},
-              dataType: "text",
-              success: function (data) {
-                  if(data == "ok"){
-                      $.notify({
-                          icon: "add_alert",
-                          message: "Action Successfully"
-
-                          }, {
-                          type: 'info',
-                          timer: 1000,
-                          placement: {
-                              from: 'top',
-                              align: 'center'
-                          }
-                      });
-                  }
-                  else{
-                      $.notify({
-                          icon: "add_alert",
-                          message: "Action failed"
-
-                          }, {
-                          type: 'info',
-                          timer: 1000,
-                          placement: {
-                              from: 'top',
-                              align: 'center'
-                          }
-                      });
-                  }
-              }
-          });
+        });
       });
       $(document).on("click",".newsletterdeletebtn",function(){
           $("#chosen_newsletter_id").val($(this).parent().attr("idkey"));
-          var tmp = $(this).parent().parent().parent();
           Swal.fire({
                   title: 'Are you sure?',
                   text: "You won't be able to revert this!",
@@ -449,8 +413,10 @@
                       data: {id:$("#chosen_newsletter_id").val()},
                       dataType: "text",
                       success: function (data) {
-                          if(data = "ok")
-                              tmp.remove();
+                          if(data == "ok") {
+                            toastr.success("Deleted Successfully!")
+                            newslettertable.ajax.reload()
+                          }
                       }
                   });
               }
@@ -470,48 +436,25 @@
                 
                 confirmButtonText: 'Yes, send it!'
         }).then((result) => {
-            if (result.value) {
-              $.ajax ({
-                  url: '<?php echo base_url() ?>local/newsletter/sendemail',
-                  method: "POST",
-                  data: {id:$("#chosen_newsletter_id").val(),
-                        lang:$(".emaillangnewsletter:checked").val(),
-                        all:$(".newsletter_allpts").is(':checked'),
-                        apt_months:$("#newsletter_apt_month").val()
-                      },
-                  dataType: "text",
-                  success: function (data) {
-                      if(data == "ok"){
-                          $.notify({
-                              icon: "add_alert",
-                              message: "Action Successfully"
-
-                              }, {
-                              type: 'info',
-                              timer: 1000,
-                              placement: {
-                                  from: 'top',
-                                  align: 'center'
-                              }
-                          });
-                      }
-                      else{
-                          $.notify({
-                              icon: "add_alert",
-                              message: "Action failed"
-
-                              }, {
-                              type: 'info',
-                              timer: 1000,
-                              placement: {
-                                  from: 'top',
-                                  align: 'center'
-                              }
-                          });
-                      }
-                  }
-              });
-            }
+          if (result.value) {
+            $.ajax ({
+              url: '<?php echo base_url() ?>local/newsletter/sendemail',
+              method: "POST",
+              data: {id:$("#chosen_newsletter_id").val(),
+                lang:$(".emaillangnewsletter:checked").val(),
+                all:$(".newsletter_allpts").is(':checked'),
+                apt_months:$("#newsletter_apt_month").val()
+              },
+              dataType: "text",
+              success: function (data) {
+                if (data == "ok") {
+                  toastr.success("Sent Successfully!")
+                } else {
+                  toastr.error("Action Failed!")
+                }
+              }
+            });
+          }
         });
       })
       $(document).on("click",".newsimgbtn",function(){
@@ -532,23 +475,12 @@
             data: {id:$("#chosen_newsletter_id").val(),img:$(".active-item").attr("id")},
             dataType: "text",
             success: function (data) {
-                if(data == "ok"){
-                  location.reload();
-                }
-                else{
-                    $.notify({
-                        icon: "add_alert",
-                        message: "Action failed"
-
-                        }, {
-                        type: 'info',
-                        timer: 1000,
-                        placement: {
-                            from: 'top',
-                            align: 'center'
-                        }
-                    });
-                }
+              if (data == "ok") {
+                toastr.success("Sent Successfully!")
+                location.reload()
+              } else {
+                toastr.error("Action Failed!")
+              }
             }
         });
       })
@@ -557,74 +489,48 @@
           $("#newsletter_phone_modal").modal("show");
       });
       $(".newsletter_allpts").change(function(){
-          if($(".newsletter_allpts").is(':checked'))
-            $("#newsletter_apt_month").prop('disabled', true);
-          else
-            $("#newsletter_apt_month").prop('disabled', false);
-
+        if($(".newsletter_allpts").is(':checked'))
+          $("#newsletter_apt_month").prop('disabled', true);
+        else
+          $("#newsletter_apt_month").prop('disabled', false);
       });
 
       $(".allsmspts").change(function(){
-          if($(".allsmspts").is(':checked'))
-            $("#newsletter_sms_apt_month").prop('disabled', true);
-          else
-            $("#newsletter_sms_apt_month").prop('disabled', false);
-
+        if($(".allsmspts").is(':checked'))
+          $("#newsletter_sms_apt_month").prop('disabled', true);
+        else
+          $("#newsletter_sms_apt_month").prop('disabled', false);
       });
 
       $(".submitphonebtn").click(function(){
-            Swal.fire({
-                    title: 'Are you sure?',
-                    text: "You won't be able to revert this!",
-                    icon: 'warning',
-                    showCancelButton: true,
-                    
-                    confirmButtonText: 'Yes, send it!'
-            }).then((result) => {
-                if (result.value) {
-                    $.ajax ({
-                        url: '<?php echo base_url() ?>local/newsletter/sendsms',
-                        method: "POST",
-                        data: {id:$("#chosen_newsletter_id").val(),
-                              lang:$(".phonelangnewsletter:checked").val(),
-                              all:$(".allsmspts").is(':checked'),
-                              apt_months:$("#newsletter_sms_apt_month").val()
-                        },
-                        dataType: "text",
-                        success: function (data) {
-                            if(data == "ok"){
-                                $.notify({
-                                    icon: "add_alert",
-                                    message: "Action Successfully"
-
-                                    }, {
-                                    type: 'info',
-                                    timer: 1000,
-                                    placement: {
-                                        from: 'top',
-                                        align: 'center'
-                                    }
-                                });
-                            }
-                            else{
-                                $.notify({
-                                    icon: "add_alert",
-                                    message: "Action failed"
-
-                                    }, {
-                                    type: 'info',
-                                    timer: 1000,
-                                    placement: {
-                                        from: 'top',
-                                        align: 'center'
-                                    }
-                                });
-                            }
-                        }
-                    });
-                }
+        Swal.fire({
+          title: 'Are you sure?',
+          text: "You won't be able to revert this!",
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonText: 'Yes, send it!'
+        }).then((result) => {
+          if (result.value) {
+            $.ajax ({
+              url: '<?php echo base_url() ?>local/newsletter/sendsms',
+              method: "POST",
+              data: {id:$("#chosen_newsletter_id").val(),
+                    lang:$(".phonelangnewsletter:checked").val(),
+                    all:$(".allsmspts").is(':checked'),
+                    apt_months:$("#newsletter_sms_apt_month").val()
+              },
+              dataType: "text",
+              success: function (data) {
+              if (data == "ok") {
+                toastr.success("Sent Successfully!")
+              } else {
+                toastr.error("Action Failed!")
+              }
+            }
             });
+          }
         });
-    });
+      });
+  });
   </script>
 </html>

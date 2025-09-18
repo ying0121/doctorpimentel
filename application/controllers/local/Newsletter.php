@@ -79,7 +79,7 @@ class Newsletter extends CI_Controller
 
 		$result = $this->Newsletter_model->addnewsletter($en_sub, $es_sub, $author, $date, $link);
 		if ($result)
-			echo json_encode($result);
+			echo "ok";
 		else {
 			echo "failed";
 		}
@@ -115,7 +115,7 @@ class Newsletter extends CI_Controller
 
 		$result = $this->Newsletter_model->updatenewsletter($id, $en_sub, $es_sub, $en_desc, $es_desc, $author, $date, $med_cond, $education_material, $gender, $age_all, $age_from, $age_to);
 		if ($result)
-			echo json_encode($result);
+			echo "ok";
 		else {
 			echo "failed";
 		}

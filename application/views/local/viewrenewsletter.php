@@ -12,7 +12,7 @@
                             <div class="card-body">
                                 <div class="row">
                                     <div class="col-md-12 text-right">
-                                        <span class="btn btn-icon btn-sm btn-light-warning submitnewsletterbtn">Update</span>
+                                        <button class="btn btn-sm btn-light-warning" id="submitnewsletterbtn">Update</button>
                                         <input type = 'hidden' class = 'base_url' value = "<?php echo base_url(); ?>" />
                                         <input type="hidden" id="chosen_id" value="<?php echo $result['id']; ?>" />
                                     </div>
@@ -79,12 +79,12 @@
                                         </div>
                                         <div class="form-group" style="display:inline-block!important">
                                             <label>From</label>
-                                            <input style="width:50px" name = 'newsletter_age_from' id = 'newsletter_age_from' class="form-control" type="number" />
+                                            <input style="width:80px" name = 'newsletter_age_from' id = 'newsletter_age_from' class="form-control" type="number" />
                                         </div>
                                         <span>~</span>
                                         <div class="form-group" style="display:inline-block!important">
                                             <label>To</label>
-                                            <input style="width:50px" name = 'newsletter_age_to' id = 'newsletter_age_to' class="form-control" type="number" />
+                                            <input style="width:80px" name = 'newsletter_age_to' id = 'newsletter_age_to' class="form-control" type="number" />
                                         </div>
                                     </div>
                                 </div>
@@ -143,7 +143,7 @@
         $("#newsletter_date").val("<?php echo $result['published']; ?>");
         $("#newsletter_desc_en").summernote("code",`<?php echo $result['en_desc']; ?>`);
         $("#newsletter_desc_es").summernote("code",`<?php echo $result['es_desc']; ?>`);
-        $('#newsletter_med_cond').val(JSON.parse('<?php echo $result['med_cond']; ?>'));
+        $('#newsletter_med_cond').val(JSON.parse('<?php if ($result["med_cond"]) echo $result['med_cond']; else echo "[]"; ?>'));
         $('#newsletter_age_all_checkbox').prop('checked', <?php echo $result['age_all']; ?>);
         $("#newsletter_age_from").val("<?php echo $result['age_from']; ?>");
         $("#newsletter_age_to").val("<?php echo $result['age_to']; ?>");
@@ -151,7 +151,7 @@
         $("input:radio[name=gender_radio][value=<?php echo $result['gender']?>]").click();
 
         $(document).ready(function() {
-            $(".submitnewsletterbtn").click(function(){
+            $("#submitnewsletterbtn").click(function(){
                 var fd = new FormData();
                 fd.append('id',$("#chosen_id").val());
                 fd.append('en_sub',$("#newsletter_sub_en").val());
@@ -174,10 +174,9 @@
                     processData: false,
                     dataType: "text",
                     success: function (data) {
-                        if(data == "true"){
+                        if(data == "ok"){
                             toastr.success("Saved Successfully!")
-                        }
-                        else{
+                        } else {
                             toastr.error("Action Failed")
                         }
                     }
@@ -212,18 +211,15 @@
                 dataType: "text",
                 success: function (data) {
                     var items = JSON.parse(data);
-                    console.log(items);
                     $('#newsletter_education_material').empty();
                     $.each(items.data, function (i, item) {
-                        
                         $('#newsletter_education_material').append($('<option>', { 
                             value: item.value,
                             text : item.text 
                         }));
                     });
 
-                    $('#newsletter_education_material').val(JSON.parse('<?php echo $result['edu_material']; ?>'));
-                    $('#newsletter_education_material').data().selectpicker.refresh();
+                    $('#newsletter_education_material').val(JSON.parse('<?php if ($result['edu_material']) echo $result['edu_material']; else echo "[]"; ?>'));
                 }
             }); 
         }
