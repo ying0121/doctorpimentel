@@ -121,25 +121,31 @@
             <div class="col-md-6">
                 <div class="form-group">
                     <h6>Subject (En)</h6>
-                    <input name = 'newsletter_sub_en' id = 'newsletter_sub_en' class="form-control" type="text" required />
+                    <input type="text" name = 'newsletter_sub_en' id = 'newsletter_sub_en' class="form-control" required />
                 </div>
             </div>
             <div class="col-md-6">
                 <div class="form-group">
                     <h6>Subject (Es)</h6>
-                    <input name = 'newsletter_sub_es' id = 'newsletter_sub_es' class="form-control" type="text" required />
+                    <input type="text" name = 'newsletter_sub_es' id = 'newsletter_sub_es' class="form-control" required />
                 </div>
             </div>
             <div class="col-md-6">
                 <div class="form-group">
                     <h6>Author</h6>
-                    <input name = 'newsletter_author' id = 'newsletter_author' class="form-control" type="text" required />
+                    <input type="text" name = 'newsletter_author' id = 'newsletter_author' class="form-control" required />
                 </div>
             </div>
             <div class="col-md-6">
                 <div class="form-group">
                   <h6>Date</h6>
-                  <input type="text" name = 'newsletter_date' id = 'newsletter_date' class="form-control datepicker">
+                  <input type="text" name = 'newsletter_date' id = 'newsletter_date' class="form-control datepicker" />
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <h6>External Link</h6>
+                    <input type="text" name = 'newsletter_link' id = 'newsletter_link' class="form-control" required />
                 </div>
             </div>
           </div>
@@ -351,11 +357,12 @@
       $(".newsletter_add").click(function(){
         $("#newsletter_add_modal").modal('show');
       });
-      $(".newsletteraddbtn").click(function(){
+      $(".newsletteraddbtn").click(function() {
         var fd = new FormData();
         fd.append('en_sub',$("#newsletter_sub_en").val());
         fd.append('es_sub',$("#newsletter_sub_es").val());
         fd.append('author',$("#newsletter_author").val());
+        fd.append('link',$("#newsletter_link").val());
         fd.append('date',$("#newsletter_date").val());
         $.ajax({
           url: '<?php echo base_url() ?>local/newsletter/addnewsletter',
@@ -365,9 +372,11 @@
           processData: false,
           dataType: "text",
           success: function (data) {
-            if(data == "ok"){
+            if(data == "ok") {
               toastr.success("Created Successfully!")
               newslettertable.ajax.reload()
+            } else if (data == "existed") {
+              toastr.info("The External Link is already existed!")
             } else {
               toastr.error("Action Failed!")
             }

@@ -22,10 +22,16 @@
                                             <input name = 'newsletter_author' id = 'newsletter_author' class="form-control" type="text" required />
                                         </div>
                                     </div>
-                                    <div class="col-md-6">
+                                    <div class="col-md-3">
                                         <div class="form-group">
                                             <h6>Date</h6>
                                             <input type="text" name = 'newsletter_date' id = 'newsletter_date' class="form-control datepicker">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <h6>External Link</h6>
+                                            <input name = 'newsletter_link' id = 'newsletter_link' class="form-control" type="text" required />
                                         </div>
                                     </div>
                                 </div>
@@ -140,6 +146,7 @@
         $("#newsletter_sub_en").val("<?php echo $result['en_sub']; ?>");
         $("#newsletter_sub_es").val("<?php echo $result['es_sub']; ?>");
         $("#newsletter_author").val("<?php echo $result['author']; ?>");
+        $("#newsletter_link").val("<?php echo $result['link']; ?>");
         $("#newsletter_date").val("<?php echo $result['published']; ?>");
         $("#newsletter_desc_en").summernote("code",`<?php echo $result['en_desc']; ?>`);
         $("#newsletter_desc_es").summernote("code",`<?php echo $result['es_desc']; ?>`);
@@ -151,12 +158,13 @@
         $("input:radio[name=gender_radio][value=<?php echo $result['gender']?>]").click();
 
         $(document).ready(function() {
-            $("#submitnewsletterbtn").click(function(){
+            $("#submitnewsletterbtn").click(function() {
                 var fd = new FormData();
                 fd.append('id',$("#chosen_id").val());
                 fd.append('en_sub',$("#newsletter_sub_en").val());
                 fd.append('es_sub',$("#newsletter_sub_es").val());
                 fd.append('author',$("#newsletter_author").val());
+                fd.append('link',$("#newsletter_link").val());
                 fd.append('date',$("#newsletter_date").val());
                 fd.append('med_cond',JSON.stringify($("#newsletter_med_cond").val()));
                 fd.append('education_material',JSON.stringify($("#newsletter_education_material").val()));
@@ -174,15 +182,17 @@
                     processData: false,
                     dataType: "text",
                     success: function (data) {
-                        if(data == "ok"){
+                        if (data == "ok") {
                             toastr.success("Saved Successfully!")
+                        } else if (data == "existed") {
+                            toastr.info("The External Link is already existed!")
                         } else {
                             toastr.error("Action Failed")
                         }
                     }
                 });
             })
-            $("#newsletter_age_all_checkbox").change(function(){
+            $("#newsletter_age_all_checkbox").change(function() {
                 if($("#newsletter_age_all_checkbox").is(':checked')){
                     $("#newsletter_age_from").prop('disabled', true);
                     $("#newsletter_age_to").prop('disabled', true);
@@ -194,7 +204,6 @@
 
             });
             $("#newsletter_med_cond").change(()=>{loadEducationMateiral();});
-
         });
 
         loadEducationMateiral();

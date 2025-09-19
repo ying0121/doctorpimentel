@@ -43,6 +43,10 @@ class Newsletter_model extends CI_Model
 
 		return $result;
 	}
+	function checkByLink($link)
+	{
+		return $this->db->select("*")->from("newsletterdata")->where("link", $link)->get()->row_array();
+	}
 	function editnewsletterstatus($id, $value)
 	{
 		$data = array(
@@ -67,7 +71,7 @@ class Newsletter_model extends CI_Model
 
 		return $result;
 	}
-	function updatenewsletter($id, $en_sub, $es_sub, $en_desc, $es_desc, $author, $date, $med_cond, $education_material, $gender, $age_all, $age_from, $age_to)
+	function updatenewsletter($id, $en_sub, $es_sub, $en_desc, $es_desc, $author, $date, $med_cond, $education_material, $gender, $age_all, $age_from, $age_to, $link)
 	{
 		$data = array(
 			'en_sub' => $en_sub,
@@ -82,7 +86,7 @@ class Newsletter_model extends CI_Model
 			'age_all' => $age_all == "true" ? true : false,
 			'age_from' => intval($age_from),
 			'age_to' => intval($age_to),
-
+			"link" => $link
 		);
 		$result = $this->db->update('newsletterdata', $data, 'id=' . $id);
 		return $result;

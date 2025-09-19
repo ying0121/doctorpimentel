@@ -64,24 +64,32 @@ class Newsletter extends CI_Controller
 	}
 	public function addnewsletter()
 	{
-		//generate 8 length string to verify
-		$characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
-		$c_length = strlen($characters);
-		$link = '';
-		for ($i = 0; $i < 8; $i++) {
-			$link .= $characters[rand(0, $c_length - 1)];
-		}
-
 		$en_sub = $this->input->post('en_sub');
 		$es_sub = $this->input->post('es_sub');
 		$author = $this->input->post('author');
 		$date = $this->input->post('date');
+		$link = $this->input->post('link');
 
-		$result = $this->Newsletter_model->addnewsletter($en_sub, $es_sub, $author, $date, $link);
-		if ($result)
-			echo "ok";
-		else {
-			echo "failed";
+		if (!$link) {
+			//generate 8 length string to verify
+			$characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+			$c_length = strlen($characters);
+			$link = '';
+			for ($i = 0; $i < 8; $i++) {
+				$link .= $characters[rand(0, $c_length - 1)];
+			}
+		}
+
+		$choose = $this->Newsletter_model->checkByLink($link);
+		if ($choose) {
+			echo "existed";
+		} else {
+			$result = $this->Newsletter_model->addnewsletter($en_sub, $es_sub, $author, $date, $link);
+			if ($result)
+				echo "ok";
+			else {
+				echo "failed";
+			}
 		}
 	}
 	public function editnewsletterstatus()
@@ -100,6 +108,7 @@ class Newsletter extends CI_Controller
 		$en_desc = $this->input->post('en_desc');
 		$es_desc = $this->input->post('es_desc');
 		$author = $this->input->post('author');
+		$link = $this->input->post('link');
 		$date = $this->input->post('date');
 		$med_cond = $this->input->post('med_cond');
 		$education_material = $this->input->post('education_material');
@@ -113,7 +122,13 @@ class Newsletter extends CI_Controller
 			return;
 		}
 
-		$result = $this->Newsletter_model->updatenewsletter($id, $en_sub, $es_sub, $en_desc, $es_desc, $author, $date, $med_cond, $education_material, $gender, $age_all, $age_from, $age_to);
+		$choose = $this->Newsletter_model->checkByLink($link);
+		if ($choose && $choose["id"] != $id) {
+			echo "existed";
+			return;
+		}
+
+		$result = $this->Newsletter_model->updatenewsletter($id, $en_sub, $es_sub, $en_desc, $es_desc, $author, $date, $med_cond, $education_material, $gender, $age_all, $age_from, $age_to, $link);
 		if ($result)
 			echo "ok";
 		else {
