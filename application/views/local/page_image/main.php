@@ -23,7 +23,7 @@
                                     <table class="table" id="page_image_tb">
                                         <thead>
                                             <th>ID</th>
-                                            <th style = "">Image</th>
+                                            <th>Image</th>
                                             <th>Page</th>
                                             <th>Position</th>
                                             <th style = "width:100px;">Display</th>
@@ -113,7 +113,6 @@
                     $("#image_upload_modal").modal('show');
                 });
             });
-
             $(document).on('click', '.delete_image_btn', function(){
                 var id = $(this).closest('div').attr('data-id');
                 var tmp = $(this).parent().parent().parent();
@@ -140,9 +139,6 @@
                     }
                 });
             });
-
-            
-        
         });
     </script>
 </body>

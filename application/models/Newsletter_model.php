@@ -28,6 +28,10 @@ class Newsletter_model extends CI_Model
 
 		return $result;
 	}
+	function chooseNewsletterImage($id)
+	{
+		return $this->db->select("*")->from("newsletterimg")->where("id", $id)->get()->row_array();
+	}
 	function addnewsletter($en_sub, $es_sub, $author, $date, $link)
 	{
 		$data = array(

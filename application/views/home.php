@@ -348,12 +348,6 @@
             color: white !important;
         }
     </style>
-
-    <script>
-        $(document).ready(function() {
-            
-        });
-    </script>
 </head>
 
 <body class="counter-scroll header_sticky">

@@ -23,6 +23,7 @@ application/logs/*
 composer.lock
 
 /assets/two-captcha
+/assets/images/newsimg/*
 /assets/images/common/qrcode.png
 /assets/images/alerts/*
 /assets/education/*
