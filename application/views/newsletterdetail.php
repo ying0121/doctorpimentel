@@ -45,9 +45,9 @@
             <div class="row">
                 <div class="col-md-12">
                     <div class="d-flex justify-content-start align-items-center gap-4 flex-wrap">
-                        <h4 style="font-size:xx-large;"><?php echo $result['header'] ?></h4>
+                        <span style="font-size:xx-large;"><?php echo $result['header'] ?></span>
                         <?php if ($result["show_contact"] == 1): ?>
-                            <a style="font-size:larger;" href="javascript:;" id="show-contact-form"><?php echo $component_text["menu_contact"]; ?></a>
+                            <span style="font-size:x-large;">&nbsp;&nbsp;|&nbsp;&nbsp;</span><a style="font-size:x-large;" href="javascript:;" id="show-contact-form"><?php echo $component_text["menu_contact"]; ?></a>
                         <?php endif ?>
                     </div>
                 </div>
@@ -74,7 +74,6 @@
                                 <input type="radio" value="Test Results Request" name="contactreason"><span style="font-size:18px; color:black; "> <?php echo $component_text['t_contact_reason_5'] ?></span><br>
                                 <input type="radio" value="General Message" name="contactreason"><span style="font-size:18px; color:black; "> <?php echo $component_text['t_contact_reason_6'] ?></span><br><br>
                             </div>
-
                             <div class="row" id="contact_pt_info">
                                 <div class="col-lg-3 col-sm-12">
                                     <input class="input-contact" id="contact_name" type="text" name="contact_name" placeholder="<?php echo $component_text['placeholder_your_name']; ?>" required>

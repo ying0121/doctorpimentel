@@ -255,8 +255,10 @@ class TheClinic extends CI_Controller
         if ($result)
             echo "ok";
     }
-    public function uploadLogo($filename)
+    public function uploadLogo()
     {
+        $filename = $_POST["filename"];
+
         unlink($_SERVER["DOCUMENT_ROOT"] . "/assets/images/" . $filename);
         $config['upload_path']          = './assets/images/';
         $config['allowed_types']        = '*';

@@ -127,9 +127,7 @@ class Newsletter extends CI_Controller {
 		$data['result'] = $this->User_model->getchosennewsletter($id,$siteLang);
 
         // Generate QrCode
-        $vCard = "Author : " . $data["result"]["author"] . "\n";
-        $vCard .= "Subject : " . $data["result"]["header"] . "\n";
-        $vCard .= "External URL : " . base_url() . "n/" . $data["result"]["view_url"];
+        $vCard = base_url() . "n/" . $data["result"]["view_url"];
         $qrCode = QrCode::create($vCard)
             ->setEncoding(new Encoding('UTF-8'))
             ->setErrorCorrectionLevel(new ErrorCorrectionLevelLow())
@@ -209,9 +207,7 @@ class Newsletter extends CI_Controller {
 		$data['result'] = $this->User_model->getchosennewsletter($choose["id"], $siteLang);
 
         // Generate QrCode
-        $vCard = "Author : " . $data["result"]["author"] . "\n";
-        $vCard .= "Subject : " . $data["result"]["header"] . "\n";
-        $vCard .= "External URL : " . base_url() . "n/" . $data["result"]["view_url"];
+        $vCard = base_url() . "n/" . $data["result"]["view_url"];
         $qrCode = QrCode::create($vCard)
             ->setEncoding(new Encoding('UTF-8'))
             ->setErrorCorrectionLevel(new ErrorCorrectionLevelLow())

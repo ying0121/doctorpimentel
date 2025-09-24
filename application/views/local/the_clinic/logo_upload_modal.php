@@ -32,9 +32,10 @@
         var img = $('#upload_image_img')[0].files;
         if(img.length > 0 ){
             fd.append('img',img[0]);
+            fd.append("filename", window.filename);
         }
         $.ajax({
-            url: '<?php echo base_url() ?>local/TheClinic/uploadLogo/' + window.filename,
+            url: '<?php echo base_url() ?>local/TheClinic/uploadLogo',
             type: 'post',
             data: fd,
             contentType: false,
