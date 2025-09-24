@@ -81,6 +81,7 @@ class Newsletter extends CI_Controller
 		$author = $this->input->post('author');
 		$date = $this->input->post('date');
 		$link = $this->input->post('link');
+		$view_url = $this->input->post('view_url');
 
 		if (!$link) {
 			//generate 8 length string to verify
@@ -91,12 +92,22 @@ class Newsletter extends CI_Controller
 				$link .= $characters[rand(0, $c_length - 1)];
 			}
 		}
+		if (!$view_url) {
+			//generate 8 length string to verify
+			$characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+			$c_length = strlen($characters);
+			$view_url = '';
+			for ($i = 0; $i < 8; $i++) {
+				$view_url .= $characters[rand(0, $c_length - 1)];
+			}
+		}
 
-		$choose = $this->Newsletter_model->checkByLink($link);
-		if ($choose) {
+		$choose_e = $this->Newsletter_model->checkByLink($link);
+		$choose_u = $this->Newsletter_model->checkByViewUrl($link);
+		if ($choose_e || $choose_u) {
 			echo "existed";
 		} else {
-			$result = $this->Newsletter_model->addnewsletter($en_sub, $es_sub, $author, $date, $link);
+			$result = $this->Newsletter_model->addnewsletter($en_sub, $es_sub, $author, $date, $link, $view_url);
 			if ($result)
 				echo "ok";
 			else {
@@ -121,6 +132,7 @@ class Newsletter extends CI_Controller
 		$es_desc = $this->input->post('es_desc');
 		$author = $this->input->post('author');
 		$link = $this->input->post('link');
+		$view_url = $this->input->post('view_url');
 		$date = $this->input->post('date');
 		$med_cond = $this->input->post('med_cond');
 		$education_material = $this->input->post('education_material');
@@ -128,19 +140,26 @@ class Newsletter extends CI_Controller
 		$age_all = $this->input->post('age_all');
 		$age_from = $this->input->post('age_from');
 		$age_to = $this->input->post('age_to');
+		$show_contact = $this->input->post('show_contact');
 
 		if ($age_all != "true" && intval($age_from) > intval($age_to)) {
 			echo "failed";
 			return;
 		}
 
-		$choose = $this->Newsletter_model->checkByLink($link);
-		if ($choose && $choose["id"] != $id) {
+		$choose_e = $this->Newsletter_model->checkByLink($link);
+		if ($choose_e && $choose_e["id"] != $id) {
 			echo "existed";
 			return;
 		}
 
-		$result = $this->Newsletter_model->updatenewsletter($id, $en_sub, $es_sub, $en_desc, $es_desc, $author, $date, $med_cond, $education_material, $gender, $age_all, $age_from, $age_to, $link);
+		$choose_u = $this->Newsletter_model->checkByViewUrl($view_url);
+		if ($choose_u && $choose_u["id"] != $id) {
+			echo "existed";
+			return;
+		}
+
+		$result = $this->Newsletter_model->updatenewsletter($id, $en_sub, $es_sub, $en_desc, $es_desc, $author, $date, $med_cond, $education_material, $gender, $age_all, $age_from, $age_to, $link, $view_url, $show_contact);
 		if ($result)
 			echo "ok";
 		else {

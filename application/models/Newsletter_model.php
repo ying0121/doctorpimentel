@@ -17,9 +17,9 @@ class Newsletter_model extends CI_Model
 	function getchosennewsletter($id, $lang)
 	{
 		if ($lang == "en")
-			$this->db->select('en_sub AS header,en_desc AS desc,author,published,newsletterimg.img');
+			$this->db->select('en_sub AS header,en_desc AS desc,author,published,show_contact,newsletterimg.img');
 		else
-			$this->db->select('es_sub AS header,es_desc AS desc,author,published,newsletterimg.img');
+			$this->db->select('es_sub AS header,es_desc AS desc,author,published,show_contact,newsletterimg.img');
 		$this->db->from('newsletterdata');
 		$this->db->join('newsletterimg', 'newsletterimg.id = newsletterdata.img');
 		$this->db->where('newsletterdata.id', $id);
@@ -32,7 +32,7 @@ class Newsletter_model extends CI_Model
 	{
 		return $this->db->select("*")->from("newsletterimg")->where("id", $id)->get()->row_array();
 	}
-	function addnewsletter($en_sub, $es_sub, $author, $date, $link)
+	function addnewsletter($en_sub, $es_sub, $author, $date, $link, $view_url)
 	{
 		$data = array(
 			'en_sub' => $en_sub,
@@ -42,6 +42,7 @@ class Newsletter_model extends CI_Model
 			'created' => date("Y-m-d"),
 			'status' => 1,
 			'link' => $link,
+			'view_url' => $view_url
 		);
 		$result = $this->db->insert('newsletterdata', $data);
 
@@ -50,6 +51,10 @@ class Newsletter_model extends CI_Model
 	function checkByLink($link)
 	{
 		return $this->db->select("*")->from("newsletterdata")->where("link", $link)->get()->row_array();
+	}
+	function checkByViewUrl($url)
+	{
+		return $this->db->select("*")->from("newsletterdata")->where("view_url", $url)->get()->row_array();
 	}
 	function editnewsletterstatus($id, $value)
 	{
@@ -75,7 +80,7 @@ class Newsletter_model extends CI_Model
 
 		return $result;
 	}
-	function updatenewsletter($id, $en_sub, $es_sub, $en_desc, $es_desc, $author, $date, $med_cond, $education_material, $gender, $age_all, $age_from, $age_to, $link)
+	function updatenewsletter($id, $en_sub, $es_sub, $en_desc, $es_desc, $author, $date, $med_cond, $education_material, $gender, $age_all, $age_from, $age_to, $link, $view_url, $show_contact)
 	{
 		$data = array(
 			'en_sub' => $en_sub,
@@ -90,7 +95,9 @@ class Newsletter_model extends CI_Model
 			'age_all' => $age_all == "true" ? true : false,
 			'age_from' => intval($age_from),
 			'age_to' => intval($age_to),
-			"link" => $link
+			"link" => $link,
+			"view_url" => $view_url,
+			"show_contact" => $show_contact
 		);
 		$result = $this->db->update('newsletterdata', $data, 'id=' . $id);
 		return $result;

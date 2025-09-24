@@ -16,16 +16,22 @@
                                         <input type = 'hidden' class = 'base_url' value = "<?php echo base_url(); ?>" />
                                         <input type="hidden" id="chosen_id" value="<?php echo $result['id']; ?>" />
                                     </div>
-                                    <div class="col-md-6">
+                                    <div class="col-md-4">
                                         <div class="form-group">
                                             <h6>Author</h6>
                                             <input name = 'newsletter_author' id = 'newsletter_author' class="form-control" type="text" required />
                                         </div>
                                     </div>
-                                    <div class="col-md-3">
+                                    <div class="col-md-2">
                                         <div class="form-group">
                                             <h6>Date</h6>
                                             <input type="text" name = 'newsletter_date' id = 'newsletter_date' class="form-control datepicker">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <h6>Detail URL</h6>
+                                            <input name = 'newsletter_view_url' id = 'newsletter_view_url' class="form-control" type="text" required />
                                         </div>
                                     </div>
                                     <div class="col-md-3">
@@ -46,7 +52,7 @@
                                             </select>
                                         </div>
                                     </div>  
-                                    <div class="col-md-4">
+                                    <div class="col-md-2">
                                         <h6>GENDER</h6>
                                         <div class="form-check form-check-radio form-check-inline">
                                             <label class="form-check-label">
@@ -73,7 +79,7 @@
                                             </label>
                                         </div>
                                     </div>
-                                    <div class="col-md-4">
+                                    <div class="col-md-3">
                                         <h6>AGE</h6>
                                         <div class="form-check form-check-inline">
                                             <label class="form-check-label">
@@ -91,6 +97,17 @@
                                         <div class="form-group" style="display:inline-block!important">
                                             <label>To</label>
                                             <input style="width:80px" name = 'newsletter_age_to' id = 'newsletter_age_to' class="form-control" type="number" />
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <h6>Contact Form</h6>
+                                        <div class="form-check form-check-inline">
+                                            <label class="form-check-label">
+                                                <input class="form-check-input newsletter_show_contact" type="checkbox" id="newsletter_show_contact" value="1"> Show
+                                                <span class="form-check-sign">
+                                                    <span class="check"></span>
+                                                </span>
+                                            </label>
                                         </div>
                                     </div>
                                 </div>
@@ -146,12 +163,14 @@
         $("#newsletter_sub_en").val("<?php echo $result['en_sub']; ?>");
         $("#newsletter_sub_es").val("<?php echo $result['es_sub']; ?>");
         $("#newsletter_author").val("<?php echo $result['author']; ?>");
+        $("#newsletter_view_url").val("<?php echo $result['view_url']; ?>");
         $("#newsletter_link").val("<?php echo $result['link']; ?>");
         $("#newsletter_date").val("<?php echo $result['published']; ?>");
         $("#newsletter_desc_en").summernote("code",`<?php echo $result['en_desc']; ?>`);
         $("#newsletter_desc_es").summernote("code",`<?php echo $result['es_desc']; ?>`);
         $('#newsletter_med_cond').val(JSON.parse('<?php if ($result["med_cond"]) echo $result['med_cond']; else echo "[]"; ?>'));
         $('#newsletter_age_all_checkbox').prop('checked', <?php echo $result['age_all']; ?>);
+        $('#newsletter_show_contact').prop('checked', <?php if ($result['show_contact'] == 1) echo true; else echo false; ?>);
         $("#newsletter_age_from").val("<?php echo $result['age_from']; ?>");
         $("#newsletter_age_to").val("<?php echo $result['age_to']; ?>");
 
@@ -164,12 +183,14 @@
                 fd.append('en_sub',$("#newsletter_sub_en").val());
                 fd.append('es_sub',$("#newsletter_sub_es").val());
                 fd.append('author',$("#newsletter_author").val());
+                fd.append('view_url',$("#newsletter_view_url").val());
                 fd.append('link',$("#newsletter_link").val());
                 fd.append('date',$("#newsletter_date").val());
                 fd.append('med_cond',JSON.stringify($("#newsletter_med_cond").val()));
                 fd.append('education_material',JSON.stringify($("#newsletter_education_material").val()));
                 fd.append('gender', $('input[name=gender_radio]:checked').val());
                 fd.append('age_all', $("#newsletter_age_all_checkbox").is(':checked'));
+                fd.append('show_contact', $("#newsletter_show_contact").prop('checked') == true ? 1 : 0);
                 fd.append('age_from', $("#newsletter_age_from").val());
                 fd.append('age_to', $("#newsletter_age_to").val());
                 fd.append('en_desc',$("#newsletter_desc_en").summernote("code"));

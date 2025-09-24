@@ -60,7 +60,7 @@ class Home extends CI_Controller
         $data['meta'] = $this->Frontend_model->getMeta();
         $data['acronym'] = $this->ContactInfo_model->readAcronym()['acronym'];
 
-        $data['doctors'] = $this->Frontend_model->getDoctors($siteLang);
+        $data['doctors'] = $this->Frontend_model->getDoctors($siteLang); 
         $data['staffs'] = $this->Frontend_model->getStaffs($siteLang);
         $data['patient_reviews'] = $this->Frontend_model->getPatientReviews($siteLang);
 
@@ -69,7 +69,6 @@ class Home extends CI_Controller
         $data['alerts'] = $this->Alert_model->getAvailableAlert();
         $data['languages'] = $this->Language_model->read();
         $data['services'] = $this->Service_model->getClinicServiceOnlyHomePage($siteLang == "en" ? 17 : 25);
-        error_log(json_encode($data['services']));
 
         if ($this->session->userdata('patient_id')) {
             $patient = $this->Patient_model->choose($this->session->userdata('patient_id'));

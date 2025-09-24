@@ -89,6 +89,7 @@
                       <table class="table" id="newsletter_tb">
                         <thead>
                           <th>Subject</th>
+                          <th>Detail URL</th>
                           <th>External Link</th>
                           <th>Author</th>
                           <th>Date</th>
@@ -140,6 +141,12 @@
                 <div class="form-group">
                   <h6>Date</h6>
                   <input type="text" name = 'newsletter_date' id = 'newsletter_date' class="form-control datepicker" />
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <h6>Detail URL</h6>
+                    <input type="text" name = 'newsletter_view_url' id = 'newsletter_view_url' class="form-control" required />
                 </div>
             </div>
             <div class="col-md-6">
@@ -320,6 +327,7 @@
         },
         "columns": [
             { data: 'en_sub'},
+            { data: 'view_url'},
             { data: 'link'},
             { data: 'author'},
             { data: 'published'},
@@ -363,6 +371,7 @@
         fd.append('es_sub',$("#newsletter_sub_es").val());
         fd.append('author',$("#newsletter_author").val());
         fd.append('link',$("#newsletter_link").val());
+        fd.append('view_url',$("#newsletter_view_url").val());
         fd.append('date',$("#newsletter_date").val());
         $.ajax({
           url: '<?php echo base_url() ?>local/newsletter/addnewsletter',
