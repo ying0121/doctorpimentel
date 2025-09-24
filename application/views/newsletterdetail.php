@@ -60,6 +60,9 @@
                 </div>
             </div>
         </div>
+        <div class="w-100 d-flex justify-content-center align-items-center mt-3 mb-5">
+            <img src="data:image/png;base64,<?php echo $qrcode; ?>" width="320px" height="320px" />
+        </div>
         <?php include('footer.php'); ?>
     </div>
 </body>

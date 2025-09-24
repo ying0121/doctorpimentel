@@ -356,11 +356,12 @@ class User_model extends CI_Model
     function getnewsletter($siteLang)
     {
         if ($siteLang == "en")
-            $this->db->select('newsletterdata.id,en_sub AS header,en_desc AS desc,author,published,newsletterimg.img');
+            $this->db->select('newsletterdata.id,en_sub AS header,en_desc AS desc,author,published,link,newsletterimg.img');
         else
-            $this->db->select('newsletterdata.id,es_sub AS header,es_desc AS desc,author,published,newsletterimg.img');
+            $this->db->select('newsletterdata.id,es_sub AS header,es_desc AS desc,author,published,link,newsletterimg.img');
         $this->db->from('newsletterdata');
         $this->db->join('newsletterimg', 'newsletterimg.id = newsletterdata.img', "left");
+        $this->db->order_by("newsletterdata.published", "DESC");
         $query = $this->db->get();
         $result = $query->result_array();
 
@@ -369,9 +370,9 @@ class User_model extends CI_Model
     function getchosennewsletter($id, $siteLang)
     {
         if ($siteLang == "en")
-            $this->db->select('newsletterdata.id,en_sub AS header,en_desc AS desc,author,published,newsletterimg.img');
+            $this->db->select('newsletterdata.id,en_sub AS header,en_desc AS desc,author,published,link,newsletterimg.img');
         else
-            $this->db->select('newsletterdata.id,es_sub AS header,es_desc AS desc,author,published,newsletterimg.img');
+            $this->db->select('newsletterdata.id,es_sub AS header,es_desc AS desc,author,published,link,newsletterimg.img');
         $this->db->from('newsletterdata');
         $this->db->join('newsletterimg', 'newsletterimg.id = newsletterdata.img', "left");
         $this->db->where("newsletterdata.id", $id);

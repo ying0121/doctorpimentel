@@ -1,5 +1,10 @@
 <?php
 
+use Endroid\QrCode\QrCode;
+use Endroid\QrCode\Writer\PngWriter;
+use Endroid\QrCode\Encoding\Encoding;
+use Endroid\QrCode\ErrorCorrectionLevel\ErrorCorrectionLevelLow;
+
 defined('BASEPATH') OR exit('No direct script access allowed');
 date_default_timezone_set('America/New_York');
 
@@ -114,6 +119,19 @@ class Newsletter extends CI_Controller {
         $data['meta'] = $this->Frontend_model->getMeta();
         
 		$data['result'] = $this->User_model->getchosennewsletter($id,$siteLang);
+
+        // Generate QrCode
+        $vCard = "Author : " . $data["result"]["author"] . "\n";
+        $vCard .= "Subject : " . $data["result"]["header"] . "\n";
+        $vCard .= "External Link : " . base_url() . "newsletter/" . $data["result"]["link"];
+        $qrCode = QrCode::create($vCard)
+            ->setEncoding(new Encoding('UTF-8'))
+            ->setErrorCorrectionLevel(new ErrorCorrectionLevelLow())
+            ->setSize(360)
+            ->setMargin(1);
+        $writer = new PngWriter();
+        $qr_res = $writer->write($qrCode);
+        $data['qrcode'] = base64_encode($qr_res->getString());
 
 		$this->load->view('newsletterdetail', $data);
 

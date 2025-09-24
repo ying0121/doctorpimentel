@@ -80,7 +80,7 @@
                         <div class="page-content">
                             <section class="box-service-details">
                                 <div class="container">
-                                    <div class="row">
+                                    <div class="row my-5">
                                         <?php for($i=0;$i < count($result);$i++): ?>
                                             <div class="col-lg-4 col-md-6 col-sm-12">
                                                 <a href="<?php echo base_url(); ?>Newsletter/detail?id=<?php echo $result[$i]['id'] ?>" target="_blank">

@@ -23,12 +23,12 @@ class Newsletter extends CI_Controller
 		$this->load->model('Newsletter_model');
 		$this->load->model('Settings_model');
 		$this->load->helper('url');
-
-		if ($this->session->userdata('userid') == '' || $this->session->userdata('userid') == null)
-			redirect('admin', 'refresh');
 	}
 	public function index()
 	{
+		if ($this->session->userdata('userid') == '' || $this->session->userdata('userid') == null)
+			redirect('admin', 'refresh');
+		
 		$data['sideitem'] = 'newsletter';
 		$data['contact_info'] = $this->ContactInfo_model->read();
 		$data['area_toggle'] = $this->AreaToggle_model->read();
