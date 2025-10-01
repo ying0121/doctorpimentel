@@ -338,10 +338,10 @@
                                     <div class="letter-container">
                                         <p class="letter-title d-flex justify-content-start align-items-center mb-4 px-5"><?php echo $component_text['menu_letters'] ?></p>
                                         <p class="mb-3 letter-desc px-5"><?php echo $component_text['t_letter_desc'] ?></p>
-                                        <div class="w-100 row" id="letter-list-container">
+                                        <div class="w-100 row justify-content-center" id="letter-list-container">
                                             <?php for ($i = 0; $i < count($letters); $i++): ?>
-                                                <div class="col-md-3 mb-5 px-5">
-                                                    <div class="letter-card-item">
+                                                <div class="col-12 col-sm-6 col-lg-4 col-xl-3 mb-5 px-5">
+                                                    <div class="letter-card-item w-100">
                                                         <div class="bordered round-xl w-95 static-body">
                                                             <div style="min-height: 150px;" class="d-flex justify-content-center align-items-center ribbon ribbon-end ribbon-clip <?php if ($letters[$i]["status"] == 0) echo "bg-inactive"; ?>">
                                                                 <div class="ribbon-label text-white <?php if ($letters[$i]['status'] == 0) echo "bg-inactive"; else if ($letters[$i]['cost'] > 0) echo "bg-danger"; else echo "bg-success"; ?>">

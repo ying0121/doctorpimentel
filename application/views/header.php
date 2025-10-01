@@ -1,3 +1,15 @@
+<style>
+    .menu-scroll-y {
+        overflow-y: auto;
+    }
+
+    @media (max-width: 1024px) {
+        .menu-scroll-y {
+            overflow-y: scroll;
+            height: 360px;
+        }
+    }
+</style>
 <header class="header downscrolled clearfix box-down-shadow">
     <div id="header" style="border-bottom: 3px solid #00aebd;">
         <div class="d-flex justify-content-end justify-content-md-center align-items-center py-2 px-2 px-xl-4 px-md-3">
@@ -49,7 +61,7 @@
             <!-- //mobile menu button -->
             <div class="nav-wrap col-lg-10 d-flex align-items-center">
                 <nav id="mainnav" class="mainnav">
-                    <ul class="menu">
+                    <ul class="menu menu-scroll-y">
                         <li>
                             <a href="<?php echo base_url() ?>"
                                 style="text-wrap:nowrap;"><?php echo $component_text['menu_home'] ?></a>

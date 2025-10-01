@@ -334,12 +334,11 @@
                     <div id="site-content" class="site-content clearfix">
                         <div id="inner-content" class="inner-content-wrap">
                             <div class="page-content">
-
                                 <section class="box-service-details">
                                     <div class="service-container">
                                         <p class="service-title d-flex justify-content-start align-items-center mb-4 px-5"><?php echo $component_text['menu_services'] ?></p>
                                         <p class="mb-3 service-desc px-5"><?php echo $component_text['t_service_desc'] ?></p>
-                                        <div class="w-100 row" id="service-list-container">
+                                        <div class="w-100 row justify-content-center" id="service-list-container">
                                         </div>
                                     </div>
                                 </section>
@@ -447,7 +446,7 @@
                     const cost = item.cost
                     const status = item.status
                     // here
-                    html += `<div class="col-md-4 mb-5 px-5">
+                    html += `<div class="col-md-6 col-xl-4 mb-5 px-5">
                                  <div class="service-card-item">
                                      <div class="bordered round-xl w-95 static-body">
                                          <div class="ribbon ribbon-end ribbon-clip" style="min-height: 150px;">
