@@ -1,6 +1,5 @@
 <style>
     .menu-scroll-y {
-        overflow-y: auto;
     }
 
     @media (max-width: 1024px) {
