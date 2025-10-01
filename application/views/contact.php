@@ -31,9 +31,10 @@
                                                     <h3 style="margin-bottom: 30px;"><?php echo $component_text['t_contact_desc'] ?></h3>
                                                     <p class="error" id="error" style="display:none;"></p>
                                                     <p class="success" id="success" style="display:none;"></p>
-                                                    <form class="content-form wow fadeInUp" id="appointment_form" action="#" method="post" accept-charset="utf-8" novalidate="novalidate" style="visibility: visible; animation-name: fadeInUp;">
+                                                    <form class="w-100 content-form wow fadeInUp" id="appointment_form" action="#" method="post" accept-charset="utf-8" novalidate="novalidate" style="visibility: visible; animation-name: fadeInUp;">
                                                         <div class="row">
-                                                            <div class="col-md-4">
+                                                            <!-- Radio Buttons -->
+                                                            <div class="col-12 col-md-4 mb-4">
                                                                 <div style="text-align: left;">
                                                                     <div style="font-size:18px; margin:10px;"><?php echo $component_text['t_contact_user_desc'] ?> (*):</div>
                                                                     <input type="radio" value="1" name="contactusertype" id="t_contact_option_patient" checked>
@@ -60,18 +61,19 @@
                                                                     <label for="t_contact_reason_6"><?php echo $component_text['t_contact_reason_6'] ?></label><br>
                                                                 </div>
                                                             </div>
-                                                            <div class="col-md-8">
+                                                            <!-- Input Forms -->
+                                                            <div class="col-12 col-md-8">
                                                                 <div class="row" id="contact_pt_info">
-                                                                    <div class="col-lg-3 col-sm-12">
+                                                                    <div class="col-12 col-lg-3">
                                                                         <input class="input-contact" id="contact_name" type="text" name="contact_name" placeholder="<?php echo $component_text['placeholder_your_name']; ?>" required>
                                                                     </div>
-                                                                    <div class="col-lg-3 col-sm-12">
+                                                                    <div class="col-12 col-lg-3">
                                                                         <input class="input-contact" id="contact_email" type="text" name="contact_email" placeholder="<?php echo $component_text['placeholder_email_address']; ?>" required>
                                                                     </div>
-                                                                    <div class="col-lg-3 col-sm-12">
+                                                                    <div class="col-12 col-lg-3">
                                                                         <input class="input-contact" id="contact_cel" type="text" name="contact_cel" placeholder="<?php echo $component_text['placeholder_phone_number']; ?>" required>
                                                                     </div>
-                                                                    <div class="col-lg-3 col-sm-12">
+                                                                    <div class="col-12 col-lg-3">
                                                                         <input class="input-contact" id="contact_dob" type="date" name="contact_dob" placeholder="<?php echo $component_text['placeholder_dob']; ?>" required>
                                                                     </div>
                                                                 </div>
@@ -107,17 +109,16 @@
                                                                     <div class="col-12 mb-1 pt-0">
                                                                         <a href="#" id="home_opt_more_info_btn"><?php echo $component_text['t_opt_more_info']; ?> >></a>
                                                                     </div>
-                                                                    <div class="col-2"></div>
-                                                                    <div class="col-10">
-                                                                        <div class="row">
-                                                                            <div class="col-4">
+                                                                    <div class="col-12">
+                                                                        <div class="row justify-content-center align-items-center">
+                                                                            <div class="col-9 col-md-4 mb-2">
                                                                                 <img id="contact_captcha_image" src="<?php echo base_url() . $captcha_image ?>" alt="Captcha Image" class="w-100" />
                                                                             </div>
-                                                                            <div class="col-1" style="padding: 0px; font-size: 32px;">
-                                                                                <i id="captcha_change" class="fa fa-lg fa-rotate-right text-primary" style="transform:translateY(50%); cursor: pointer;"></i>
+                                                                            <div class="col-3 col-md-1 mb-2" style="padding: 0px; font-size: 32px;">
+                                                                                <i id="captcha_change" class="fa fa-lg fa-rotate-right text-primary" style="cursor: pointer;"></i>
                                                                             </div>
-                                                                            <div class="col-7">
-                                                                                <input tabindex="3" id="contact_captcha" name="captcha" value="" class="input-contact" type="text" placeholder="<?php echo $component_text['placeholder_captcha']; ?>" autocomplete="new-captcha">
+                                                                            <div class="col-12 col-md-7 mb-4">
+                                                                                <input tabindex="3" id="contact_captcha" name="captcha" value="" class="input-contact mb-0" type="text" placeholder="<?php echo $component_text['placeholder_captcha']; ?>" autocomplete="new-captcha">
                                                                             </div>
                                                                         </div>
                                                                     </div>

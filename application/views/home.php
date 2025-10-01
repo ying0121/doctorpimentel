@@ -443,7 +443,7 @@
                                                 <h3 class=" text-color-white" style="margin-bottom: 30px;"><?php echo $component_text['t_contact_desc'] ?></h3>
                                                 <p class="error" id="error" style="display:none;"></p>
                                                 <p class="success" id="success" style="display:none;"></p>
-                                                <form class="content-form wow fadeInUp" id="appointment_form" action="#" method="post" accept-charset="utf-8" novalidate="novalidate" style="visibility: visible; animation-name: fadeInUp;">
+                                                <form class="w-100 content-form wow fadeInUp" id="appointment_form" action="#" method="post" accept-charset="utf-8" novalidate="novalidate" style="visibility: visible; animation-name: fadeInUp;">
                                                     <div style="text-align: left;">
                                                         <div style="font-size:18px; color:white; margin:10px;"><?php echo $component_text['t_contact_user_desc'] ?> (*):</div>
                                                         <input type="radio" value="1" class="contactusertype" name="contactusertype" checked><span style="font-size:18px; color:white; "> <?php echo $component_text['t_contact_option_patient'] ?></span>
@@ -461,18 +461,17 @@
                                                         <input type="radio" value="Test Results Request" name="contactreason"><span style="font-size:18px; color:white; "> <?php echo $component_text['t_contact_reason_5'] ?></span><br>
                                                         <input type="radio" value="General Message" name="contactreason"><span style="font-size:18px; color:white; "> <?php echo $component_text['t_contact_reason_6'] ?></span><br><br>
                                                     </div>
-
                                                     <div class="row" id="contact_pt_info">
-                                                        <div class="col-lg-3 col-sm-12">
+                                                        <div class="col-12 col-lg-3">
                                                             <input class="input-contact" id="contact_name" type="text" name="contact_name" placeholder="<?php echo $component_text['placeholder_your_name']; ?>" required>
                                                         </div>
-                                                        <div class="col-lg-3 col-sm-12">
+                                                        <div class="col-12 col-lg-3">
                                                             <input class="input-contact" id="contact_email" type="text" name="contact_email" placeholder="<?php echo $component_text['placeholder_email_address']; ?>" required>
                                                         </div>
-                                                        <div class="col-lg-3 col-sm-12">
+                                                        <div class="col-12 col-lg-3">
                                                             <input class="input-contact" id="contact_cel" type="text" name="contact_cel" placeholder="<?php echo $component_text['placeholder_phone_number']; ?>" required>
                                                         </div>
-                                                        <div class="col-lg-3 col-sm-12">
+                                                        <div class="col-12 col-lg-3">
                                                             <input class="input-contact" id="contact_dob" type="date" name="contact_dob" placeholder="<?php echo $component_text['placeholder_dob']; ?>" required>
                                                         </div>
                                                     </div>
@@ -508,16 +507,15 @@
                                                         <div class="col-12 mb-1">
                                                             <a href="#" id="home_opt_more_info_btn" class="text-white"><?php echo $component_text['t_opt_more_info']; ?> >></a>
                                                         </div>
-                                                        <div class="col-5"></div>
-                                                        <div class="col-7">
-                                                            <div class="row">
-                                                                <div class="col-4">
+                                                        <div class="col-12">
+                                                            <div class="row justify-content-center align-items-center">
+                                                                <div class="col-9 col-md-4 mb-2">
                                                                     <img id="contact_captcha_image" src="<?php echo base_url() . $captcha_image ?>" alt="Captcha Image" class="w-100" />
                                                                 </div>
-                                                                <div class="col-1" style="padding: 0px; font-size: 32px;">
+                                                                <div class="col-3 col-md-1 mb-2" style="padding: 0px; font-size: 32px;">
                                                                     <i id="captcha_change" class="fa fa-lg fa-rotate-right text-primary" style="transform:translateY(50%); cursor: pointer;"></i>
                                                                 </div>
-                                                                <div class="col-7">
+                                                                <div class="col-12 col-md-7 mb-4">
                                                                     <input tabindex="3" id="contact_captcha" name="captcha" value="" class="input-contact" type="text" placeholder="<?php echo $component_text['placeholder_captcha']; ?>" autocomplete="new-captcha">
                                                                 </div>
                                                             </div>

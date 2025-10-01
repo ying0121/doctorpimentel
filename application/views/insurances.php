@@ -76,14 +76,12 @@
     <div class="wrapper">
         <div id="page">
             <?php include('header.php') ?>
-
             <!-- Main Content -->
             <div id="main-content" class="site-main clearfix mb-10">
                 <div id="content-wrap">
                     <div id="site-content" class="site-content clearfix">
                         <div id="inner-content" class="inner-content-wrap">
                             <div class="page-content">
-
                                 <section class="box-service-details">
                                     <div class="insurance-container">
                                         <p class="insurance-title d-flex justify-content-start align-items-center mb-4 px-p4"><?php echo $component_text['t_ins_title'] ?></p>
@@ -157,16 +155,16 @@
                         let html = ''
                         if (insurances.length) {
                             insurances.forEach(ins => {
-                                html += `<div class="col-md-3 d-flex justify-content-center w-100 mb-3">
-                                <div class="insurance-item w-70">
-                                    <div class="w-100 d-flex justify-content-center bordered">
-                                        <img src="<?php echo base_url() ?>assets/images/insurance/${ins.img ? ins.img : 'empty-img.jpg'}" style="width: 90%; height: 100px;">
-                                    </div>
-                                    <p class="text-light-green insurance-item-name">${ins.name}</p>
-                                    <p>${ins.phone}</p>
-                                    <p>${ins.address}</p>
-                                </div>
-                            </div>`
+                                html += `<div class="col-sm-6 col-lg-4 col-xl-3 d-flex justify-content-center w-100 mb-3">
+                                            <div class="insurance-item w-70">
+                                                <div class="w-100 d-flex justify-content-center bordered">
+                                                    <img src="<?php echo base_url() ?>assets/images/insurance/${ins.img ? ins.img : 'empty-img.jpg'}" style="width: 90%; height: 100px;">
+                                                </div>
+                                                <p class="text-light-green insurance-item-name">${ins.name}</p>
+                                                <p>${ins.phone}</p>
+                                                <p>${ins.address}</p>
+                                            </div>
+                                        </div>`
                             })
                         } else {
                             html = `<div style="text-align: center; font-size: xx-large; color: gray; height: 80px;">
