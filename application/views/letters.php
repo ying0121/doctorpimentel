@@ -346,10 +346,10 @@
                                                             <div style="min-height: 150px;" class="d-flex justify-content-center align-items-center ribbon ribbon-end ribbon-clip <?php if ($letters[$i]["status"] == 0) echo "bg-inactive"; ?>">
                                                                 <div class="ribbon-label text-white <?php if ($letters[$i]['status'] == 0) echo "bg-inactive"; else if ($letters[$i]['cost'] > 0) echo "bg-danger"; else echo "bg-success"; ?>">
                                                                     <?php if ($letters[$i]['cost'] > 0) echo "$" . $letters[$i]['cost'];
-                                                                    else echo "FREE"; ?>
+                                                                    else echo $component_text["c_health_plan_elig"]; ?>
                                                                     <span class="ribbon-inner text-secondary"></span>
                                                                 </div>
-                                                                <i class="fa fa-<?php echo $letters[$i]['icon'] ?>" style="font-size: 120px;"></i>
+                                                                <a href="<?php echo base_url(); ?>letters/detail?s=<?php echo $letters[$i]['id'] ?>" target="_blank"><i class="fa fa-<?php echo $letters[$i]['icon'] ?>" style="font-size: 120px;"></i></a>
                                                             </div>
                                                             <div class="w-100 text-center d-flex justify-content-center align-items-center <?php if ($letters[$i]["status"] == 0) echo "bg-inactive"; ?>" style="min-height: 80px;">
                                                                 <div class="mb-2" data-id="<?php echo $letters[$i]['id'] ?>">

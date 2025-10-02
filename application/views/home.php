@@ -375,7 +375,7 @@
                                                         <div class="ribbon-label <?php if ($services[$i]['cost'] > 0) echo "bg-danger";
                                                                                     else echo "bg-success"; ?> text-white">
                                                             <?php if ($services[$i]['cost'] > 0) echo "$" . $services[$i]['cost'];
-                                                            else echo "FREE"; ?>
+                                                            else echo$component_text["c_health_plan_elig"]; ?>
                                                             <span class="ribbon-inner text-secondary"></span>
                                                         </div>
                                                         <img src="<?php echo base_url(); ?>assets/service/image/<?php echo $services[$i]['image']; ?>" class="w-100 round-top-xl" />

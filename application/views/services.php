@@ -452,10 +452,10 @@
                                      <div class="bordered round-xl w-95 static-body">
                                          <div class="ribbon ribbon-end ribbon-clip" style="min-height: 150px;">
                                              <div class="ribbon-label text-white ${status == 0 ? "bg-inactive" : (cost > 0 ? "bg-danger" : "bg-success")}">
-                                                 ${cost > 0 ? "$" + cost : "FREE"}
+                                                 ${cost > 0 ? "$" + cost : "<?php echo $component_text["c_health_plan_elig"] ?>"}
                                                  <span class="ribbon-inner text-secondary"></span>
                                              </div>
-                                             <img src="<?php echo base_url(); ?>assets/service/image/${item.image}" class="w-100 round-top-xl" />
+                                             <a href="<?php echo base_url(); ?>Services/detail?s=${item.id}" target="_blank"><img src="<?php echo base_url(); ?>assets/service/image/${item.image}" class="w-100 round-top-xl" /></a>
                                          </div>
                                          <div class="w-100 text-center d-flex justify-content-center align-items-center ${status == 0 ? "bg-inactive" : ""}" style="min-height: 80px;">
                                              <div class="mb-2" data-id="${item.id}">
