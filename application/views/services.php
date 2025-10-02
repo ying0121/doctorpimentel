@@ -435,7 +435,8 @@
             method: 'POST',
             data: {
                 language: lang == 'en' ? 17 : 25,
-                category: 0
+                category: 0,
+                status: 1
             },
             dataType: 'json',
             success: function(res) {

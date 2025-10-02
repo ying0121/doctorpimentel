@@ -69,6 +69,7 @@ class Letters extends CI_Controller
         } else {
             $filter['language'] = 25;
         }
+        $filter['status'] = 1;
         $data['letters'] = $this->Letters_model->readLetters($filter);
         error_log(json_encode($data['letters']));
 

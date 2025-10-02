@@ -25,6 +25,7 @@ class Services extends CI_Controller
     {
         $filter['category'] = $_POST['category'];
         $filter['language'] = $_POST['language'];
+        $filter["status"] = $_POST["status"] ? $_POST["status"] : "all";
         $result = $this->Service_model->getClinicService($filter);
         echo json_encode(array('data' => $result));
     }

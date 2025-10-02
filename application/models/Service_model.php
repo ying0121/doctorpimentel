@@ -19,6 +19,9 @@ class Service_model extends CI_Model
         if ($filter['language'] > 0) {
             $this->db->where('clinic_services.language', $filter['language']);
         }
+        if ($filter['status'] != "all") {
+            $this->db->where('clinic_services.status', $filter['status']);
+        }
 
         return $this->db->get()->result_array();
     }
