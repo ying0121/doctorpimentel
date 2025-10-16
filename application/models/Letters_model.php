@@ -20,9 +20,6 @@ class Letters_model extends CI_Model
         if ($filter['language'] > 0) {
             $this->db->where('letters.language', $filter['language']);
         }
-        if ($filter['status'] != "all") {
-            $this->db->where('letters.status', $filter['status']);
-        }
 
         return $this->db->get()->result_array();
     }

@@ -153,25 +153,27 @@ class Contact extends CI_Controller
         $id = $_POST['id'];
         $data = $this->Contacts_model->chosentrack($id);
 
-        // 2. send to central begin //
-        $central_data = array(
-            'case_number' => $data['case_number']
-        );
-        // API endpoint URL
-        $url = $this->config->item('medical_center_url') . 'api/deleteContactTrackByCase';
-        // Initialize cURL session
-        $curl = curl_init();
-        curl_setopt($curl, CURLOPT_URL, $url);
-        curl_setopt($curl, CURLOPT_POST, true);
-        curl_setopt($curl, CURLOPT_POSTFIELDS, http_build_query($central_data));
-        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-        // Execute cURL request
-        curl_exec($curl);
-        // Close cURL session
-        curl_close($curl);
-        // 2. send to central end //
-
         $result = $this->Contacts_model->deletetrackbycase($data['case_number']);
+
+        // 2. send to central begin //
+        // $central_data = array(
+        //     'case_number' => $data['case_number']
+        // );
+
+        // // API endpoint URL
+        // $url = $this->config->item('medical_center_url') . 'api/deleteContactTrackByCase';
+        // // Initialize cURL session
+        // $curl = curl_init();
+        // curl_setopt($curl, CURLOPT_URL, $url);
+        // curl_setopt($curl, CURLOPT_POST, true);
+        // curl_setopt($curl, CURLOPT_POSTFIELDS, http_build_query($central_data));
+        // curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+        // // Execute cURL request
+        // curl_exec($curl);
+        // // Close cURL session
+        // curl_close($curl);
+        // // 2. send to central end //
+
         if ($result) {
             echo "ok";
         }
