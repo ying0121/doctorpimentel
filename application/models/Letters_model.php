@@ -11,8 +11,8 @@ class Letters_model extends CI_Model
     {
         $this->db->select('letters.*, letter_categories.name AS category_name, f_vs_languages.English AS language_name');
         $this->db->from('letters');
-        $this->db->join("letter_categories", "letters.category = letter_categories.id");
-        $this->db->join("f_vs_languages", "letters.language = f_vs_languages.id");
+        $this->db->join("letter_categories", "letters.category = letter_categories.id", "left");
+        $this->db->join("f_vs_languages", "letters.language = f_vs_languages.id", "left");
 
         if ($filter['category'] > 0) {
             $this->db->where('letters.category', $filter['category']);

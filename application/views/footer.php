@@ -409,17 +409,17 @@
             }
         }
 
-        if (app_name.value == "") {
+        if (!app_name) {
             errors += '<?php echo $component_text['m_invalid_name'] ?>';
-        } else if (app_email_address.value == "") {
+        } else if (!app_email_address) {
             errors += '<?php echo $component_text['m_invalid_email'] ?>';
-        } else if (app_date.value == "") {
+        } else if (!app_date) {
             errors += '<?php echo $component_text['m_invalid_dob'] ?>';
-        } else if (app_subject.value == "") {
+        } else if (!app_subject) {
             errors += '<?php echo $component_text['m_invalid_subject'] ?>';
-        } else if (app_message.value == "") {
+        } else if (!app_message) {
             errors += '<?php echo $component_text['m_invalid_message'] ?>';
-        } else if (app_captcha == "") {
+        } else if (!app_captcha) {
             errors += '<?php echo $component_text['m_invalid_captcha'] ?>';
         }
         if (errors) {

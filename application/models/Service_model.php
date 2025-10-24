@@ -11,7 +11,7 @@ class Service_model extends CI_Model
     {
         $this->db->select('clinic_services.*, service_category.name AS category_name');
         $this->db->from('clinic_services');
-        $this->db->join("service_category", "clinic_services.category = service_category.id");
+        $this->db->join("service_category", "clinic_services.category = service_category.id", "join");
 
         if ($filter['category'] > 0) {
             $this->db->where('clinic_services.category', $filter['category']);
