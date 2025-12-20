@@ -261,7 +261,7 @@ class Newsletter extends CI_Controller
 		$result = $this->Newsletter_model->getchosennewsletter($newsletter_id, $tmplang);
 		$phoneArr = $this->Newsletter_model->getPatientSmsesWithMedCond($all, $apt_months, $newsletter_id);
 
-		$tmptext = "Best Care Ever Alert\n\n" . $result['header'] . "\n" . $result['author'] . " - " . $result['published'] . "\n";
+		$tmptext = "Alert\n\n" . $result['header'] . "\n" . $result['author'] . " - " . $result['published'] . "\n";
 		$tmptext .= $this->config->item('base_url') . "/newsletter/detail?id=" . $newsletter_id;
 		$from = "+13476012801";
 		require './Twilio/autoload.php';
@@ -341,12 +341,12 @@ class Newsletter extends CI_Controller
 		if ( ! $this->upload->do_upload('file')) {
 			$error = array('error' => $this->upload->display_errors());
 			redirect('local/Setting', 'refresh');
-
 		} else {
 			$data = array('upload_data' => $this->upload->data());
 			$result = $this->Settings_model->updatenewsimg($name,$data['upload_data']['orig_name']);
-			if($result)
-				redirect('local/Setting', 'refresh');
+			if($result) {
+				redirect('local/newsletter', 'refresh');
+			}
 		}
 	}
 

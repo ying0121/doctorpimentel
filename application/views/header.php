@@ -19,7 +19,7 @@
                     class="d-none d-xl-block"><?php echo $component_text['t_topbar_emergency_call'] ?></p>
                 <p style="padding:0px 10px 0px 10px;" class="d-none d-lg-block"><?php echo $contact_info['email'] ?></p>
                 <?php if ($contact_info["portal_show"] == 1): ?>
-                    <a href="#" class="themesflat-button font-default process px-3 mx-1"><span><?php echo $component_text['link_portal'] ?></span></a>
+                    <a href="<?php echo $contat_info["portal"]; ?>" class="themesflat-button font-default process px-3 mx-1" target="_blank"><span><?php echo $component_text['link_portal'] ?></span></a>
                 <?php endif ?>
                 <?php if ($area_toggle['vault_area']): ?>
                     <?php if ($this->session->userdata('patient_id') == '' || $this->session->userdata('patient_name') == null): ?>

@@ -187,7 +187,6 @@
                 </div>
             </div>
             <!-- Modal footer -->
-            </form>
             <div class="modal-footer">
                 <button type="button" class="btn btn-light-primary" id="letters_save_btn">Save</button>
                 <button type="button" class="btn btn-light-danger" data-dismiss="modal">Close</button>
@@ -224,7 +223,6 @@
                 </div>
             </div>
             <!-- Modal footer -->
-            </form>
             <div class="modal-footer">
                 <button type="button" class="btn btn-light-primary" id="letters_file_save_btn">Upload</button>
                 <button type="button" class="btn btn-light-danger" data-dismiss="modal">Close</button>

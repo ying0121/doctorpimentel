@@ -340,18 +340,19 @@
                                         <p class="mb-3 letter-desc px-5"><?php echo $component_text['t_letter_desc'] ?></p>
                                         <div class="w-100 row justify-content-center" id="letter-list-container">
                                             <?php for ($i = 0; $i < count($letters); $i++): ?>
+                                                <?php if ($letters[$i]["status"] == 1): ?>
                                                 <div class="col-12 col-sm-6 col-lg-4 col-xl-3 mb-5 px-5">
                                                     <div class="letter-card-item w-100">
                                                         <div class="bordered round-xl w-95 static-body">
-                                                            <div style="min-height: 150px;" class="d-flex justify-content-center align-items-center ribbon ribbon-end ribbon-clip <?php if ($letters[$i]["status"] == 0) echo "bg-inactive"; ?>">
-                                                                <div class="ribbon-label text-white <?php if ($letters[$i]['status'] == 0) echo "bg-inactive"; else if ($letters[$i]['cost'] > 0) echo "bg-danger"; else echo "bg-success"; ?>">
+                                                            <div style="min-height: 150px;" class="d-flex justify-content-center align-items-center ribbon ribbon-end ribbon-clip">
+                                                                <div class="ribbon-label text-white <?php if ($letters[$i]['cost'] > 0) echo "bg-danger"; else echo "bg-success"; ?>">
                                                                     <?php if ($letters[$i]['cost'] > 0) echo "$" . $letters[$i]['cost'];
                                                                     else echo $component_text["c_health_plan_elig"]; ?>
                                                                     <span class="ribbon-inner text-secondary"></span>
                                                                 </div>
                                                                 <a href="<?php echo base_url(); ?>letters/detail?s=<?php echo $letters[$i]['id'] ?>" target="_blank"><i class="fa fa-<?php echo $letters[$i]['icon'] ?>" style="font-size: 120px;"></i></a>
                                                             </div>
-                                                            <div class="w-100 text-center d-flex justify-content-center align-items-center <?php if ($letters[$i]["status"] == 0) echo "bg-inactive"; ?>" style="min-height: 80px;">
+                                                            <div class="w-100 text-center d-flex justify-content-center align-items-center" style="min-height: 80px;">
                                                                 <div class="mb-2" data-id="<?php echo $letters[$i]['id'] ?>">
                                                                     <p class="pt-2 px-3" style="font-size: 21px;"><?php echo $letters[$i]['title'] ?></p>
                                                                     <div class="d-flex justify-content-center align-items-center">
@@ -364,6 +365,7 @@
                                                         </div>
                                                     </div>
                                                 </div>
+                                                <?php endif ?>
                                             <?php endfor ?>
                                         </div>
                                     </div>
@@ -453,7 +455,6 @@
 </body>
 
 <script>
-
     const lang = "<?php echo $this->session->userdata("language") ?>"
     $(document).ready(function() {
 
