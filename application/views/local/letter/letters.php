@@ -88,8 +88,7 @@
                     <th>Language</th>
                     <th>Title</th>
                     <th>Short Description</th>
-                    <th>Image</th>
-                    <th>Video</th>
+                    <th>Price</th>
                     <th>Status</th>
                     <th>Actions</th>
                 </thead>
@@ -345,14 +344,9 @@
             }, {
                 data: 'short_desc'
             }, {
-                data: 'image',
+                data: 'cost',
                 render: function(data, type, row) {
-                    return row.image ? `<img src="<?php echo base_url() ?>assets/letter/image/${row.image}" width="140px" />` : ""
-                }
-            }, {
-                data: 'video',
-                render: function(data, type, row) {
-                    return row.video ? `<a href="<?php echo base_url() ?>assets/letter/video/${row.video}" class="text-primary" target="_blank">${row.video}</a>` : ""
+                    return row.cost ? `$${row.cost}` : "N/A"
                 }
             }, {
                 data: 'status',

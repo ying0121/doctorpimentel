@@ -11,7 +11,7 @@ class Service_model extends CI_Model
     {
         $this->db->select('clinic_services.*, service_category.name AS category_name');
         $this->db->from('clinic_services');
-        $this->db->join("service_category", "clinic_services.category = service_category.id", "join");
+        $this->db->join("service_category", "clinic_services.category = service_category.id");
 
         if ($filter['category'] > 0) {
             $this->db->where('clinic_services.category', $filter['category']);
@@ -19,9 +19,7 @@ class Service_model extends CI_Model
         if ($filter['language'] > 0) {
             $this->db->where('clinic_services.language', $filter['language']);
         }
-        if ($filter['status'] != "all") {
-            $this->db->where('clinic_services.status', $filter['status']);
-        }
+        $this->db->order_by("order", "asc");
 
         return $this->db->get()->result_array();
     }
@@ -34,6 +32,8 @@ class Service_model extends CI_Model
     function addClinicService($data)
     {
         $record = array(
+            'key' => $data['key'],
+            'order' => $data['order'],
             'language' => $data['language'],
             'category' => $data['category'],
             'title' => $data['title'],
@@ -58,9 +58,20 @@ class Service_model extends CI_Model
         return $this->db->get()->row_array();
     }
 
+    function chosenClinicServiceByKey($key, $lang)
+    {
+        $this->db->select('*');
+        $this->db->from('clinic_services');
+        $this->db->where('key', $key);
+        $this->db->where("language", $lang == "en" ? 17 : 25);
+        return $this->db->get()->row_array();
+    }
+
     function updateClinicService($data)
     {
         $record = array(
+            'key' => $data["key"],
+            'order' => $data["order"],
             'language' => $data['language'],
             'category' => $data['category'],
             'title' => $data['title'],

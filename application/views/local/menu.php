@@ -72,6 +72,16 @@ if ($tmpmenu == NULL)
                         </a>
                     </li>
                 <?php endif ?>
+                <?php if (in_array("Fees", $tmpmenu)): ?>
+                    <li class="menu-item <?php echo $sideitem == 'fees' ? 'menu-item-active' : ''; ?>" aria-haspopup="true">
+                        <a href="<?php echo base_url(); ?>local/Fees" class="menu-link">
+                            <span class="menu-icon">
+                                <i class="fa fa-money-bill" style="font-size:inherit; color:inherit"></i>
+                            </span>
+                            <span class="menu-text">FEES</span>
+                        </a>
+                    </li>
+                <?php endif ?>
                 <?php if (in_array("Letter", $tmpmenu)): ?>
                     <li class="menu-item <?php echo $sideitem == 'letter' ? 'menu-item-active' : ''; ?>" aria-haspopup="true">
                         <a href="<?php echo base_url(); ?>local/Letters" class="menu-link">

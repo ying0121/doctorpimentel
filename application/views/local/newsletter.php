@@ -111,7 +111,7 @@
   </body>
   <!-- The Modal -->
 	<div class="modal fade" id="newsletter_add_modal">
-    <div class="modal-dialog modal-lg">
+    <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
           <h4 class="modal-title ">Add Newsletter</h4>
@@ -119,13 +119,13 @@
         </div>
         <div class="modal-body">
           <div class = "row">
-            <div class="col-md-6">
+            <div class="col-md-12">
                 <div class="form-group">
                     <h6>Subject (En)</h6>
                     <input type="text" name = 'newsletter_sub_en' id = 'newsletter_sub_en' class="form-control" required />
                 </div>
             </div>
-            <div class="col-md-6">
+            <div class="col-md-12">
                 <div class="form-group">
                     <h6>Subject (Es)</h6>
                     <input type="text" name = 'newsletter_sub_es' id = 'newsletter_sub_es' class="form-control" required />
@@ -140,16 +140,16 @@
             <div class="col-md-6">
                 <div class="form-group">
                   <h6>Date</h6>
-                  <input type="text" name = 'newsletter_date' id = 'newsletter_date' class="form-control datepicker" />
+                  <input type="date" name = 'newsletter_date' id = 'newsletter_date' class="form-control" />
                 </div>
             </div>
-            <div class="col-md-6">
+            <div class="col-md-12">
                 <div class="form-group">
                     <h6>Detail URL</h6>
                     <input type="text" name = 'newsletter_view_url' id = 'newsletter_view_url' class="form-control" required />
                 </div>
             </div>
-            <div class="col-md-6">
+            <div class="col-md-12">
                 <div class="form-group">
                     <h6>External Link</h6>
                     <input type="text" name = 'newsletter_link' id = 'newsletter_link' class="form-control" required />
@@ -365,6 +365,7 @@
             search: "_INPUT_",
             searchPlaceholder: "Search newsletter",
         },
+        order: [[4, 'desc']],
         "ajax": {
             "url": "<?php echo base_url() ?>local/Newsletter/getnewsletter",
             "type": "GET"

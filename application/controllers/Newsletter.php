@@ -171,6 +171,9 @@ class Newsletter extends CI_Controller {
     public function renderDetail($url)
     {
 		$choose = $this->Newsletter_model->checkByViewUrl($url);
+        if (!$choose) {
+            return;
+        }
 		
         if ($this->session->userdata('language'))
             $siteLang = $this->session->userdata('language');
@@ -203,6 +206,25 @@ class Newsletter extends CI_Controller {
         $data['alerts'] = $this->Alert_model->getAvailableAlert();
         $data['acronym'] = $this->ContactInfo_model->readAcronym()['acronym'];
         $data['meta'] = $this->Frontend_model->getMeta();
+
+        $desc = "";
+        if ($siteLang == "en") {
+            $desc = html_entity_decode(strip_tags($choose['en_desc']), ENT_QUOTES | ENT_HTML5);
+            $desc = preg_replace('/\s+/', ' ', $desc);
+            $desc = trim($desc);
+        } else {
+            $desc = html_entity_decode(strip_tags($choose['es_desc']), ENT_QUOTES | ENT_HTML5);
+            $desc = preg_replace('/\s+/', ' ', $desc);
+            $desc = trim($desc);
+        }
+        $data['meta']['meta_title'] = $siteLang == "en" ? $choose['en_sub'] : $choose['es_sub'];
+        $data['meta']['meta_desc'] = $desc;
+        $data['meta']['facebook_title'] = $siteLang == "en" ? $choose['en_sub'] : $choose['es_sub'];
+        $data['meta']['facebook_desc'] = $desc;
+        $data['meta']['facebook_image'] = base_url() . "assets/images/facebook_meta.jpg";
+        $data['meta']['twitter_title'] = $siteLang == "en" ? $choose['en_sub'] : $choose['es_sub'];
+        $data['meta']['twitter_desc'] = $desc;
+        $data['meta']['twitter_image'] = base_url() . "assets/images/twitter_meta.jpg";
         
 		$data['result'] = $this->User_model->getchosennewsletter($choose["id"], $siteLang);
 

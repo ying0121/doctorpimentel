@@ -95,6 +95,7 @@
                 ],
                 "order":[[2,'asc'],[0,'asc']]
             });
+
             $(document).on('click', '.upload_image_btn', function(){
                 var id = $(this).closest('div').attr('data-id');
                 $.ajax({
@@ -107,13 +108,10 @@
                     }
                 }).then(() => {
                     window.id = id;
-                    if(position == 'HEADER-BANER')
-                        $("#img_size").html('(1920*420)');
-                    if(position == 'CENTRAL')
-                        $("#img_size").html('(500*550)');
                     $("#image_upload_modal").modal('show');
                 });
             });
+
             $(document).on('click', '.delete_image_btn', function(){
                 var id = $(this).closest('div').attr('data-id');
                 var tmp = $(this).parent().parent().parent();
@@ -122,8 +120,6 @@
                     text: "You won't be able to revert this!",
                     icon: 'warning',
                     showCancelButton: true,
-                    
-                    
                     confirmButtonText: 'Yes, delete it!'
                 }).then((result) => {
                     if (result.value) {
@@ -140,6 +136,7 @@
                     }
                 });
             });
+
             $(document).on('click', '.download_image_btn', function () {
                 const imageURL = "<?php echo base_url() ?>/assets/images/pageimgs/" + $(this).attr("data-image")
                 const link = document.createElement("a")
@@ -152,5 +149,3 @@
         });
     </script>
 </body>
-
-

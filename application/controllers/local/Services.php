@@ -25,7 +25,6 @@ class Services extends CI_Controller
     {
         $filter['category'] = $_POST['category'];
         $filter['language'] = $_POST['language'];
-        $filter["status"] = $_POST["status"] ? $_POST["status"] : "all";
         $result = $this->Service_model->getClinicService($filter);
         echo json_encode(array('data' => $result));
     }
@@ -33,6 +32,8 @@ class Services extends CI_Controller
     function addClinicService()
     {
         $data = array(
+            'key' => $_POST['key'],
+            'order' => $_POST['order'],
             'language' => $_POST['language'],
             'category' => $_POST['category'],
             'title' => $_POST['title'],
@@ -56,6 +57,8 @@ class Services extends CI_Controller
     {
         $data = array(
             'id' => $_POST['id'],
+            'key' => $_POST['key'],
+            'order' => $_POST['order'],
             'language' => $_POST['language'],
             'category' => $_POST['category'],
             'title' => $_POST['title'],

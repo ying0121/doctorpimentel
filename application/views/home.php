@@ -386,7 +386,7 @@
                                                             <div class="d-flex justify-content-center align-items-center">
                                                                 <a href="javascript:;" class="text-primary service_request" style="font-size: 18px;" data-id="<?php echo $services[$i]['id']; ?>" data-title="<?php echo $services[$i]['title']; ?>"><?php echo $component_text['t_request_service'] ?></a>
                                                                 &nbsp;&nbsp;|&nbsp;&nbsp;
-                                                                <a href="<?php echo base_url(); ?>Services/detail?s=<?php echo $services[$i]['id']; ?>" target="_blank" style="font-size: 18px;"><?php echo $component_text['btn_read_more']; ?></a>
+                                                                <a href="<?php echo base_url(); ?>Services/detail?s=<?php echo $services[$i]['key']; ?>" target="_blank" style="font-size: 18px;"><?php echo $component_text['btn_read_more']; ?></a>
                                                             </div>
                                                         </div>
                                                     </div>
