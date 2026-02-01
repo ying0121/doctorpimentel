@@ -259,7 +259,7 @@
                 })
                 $("#letters_language").html(html)
                 $("#letters_desc_language_filter").html(html)
-                $("#letters_language_filter").html("<option value='0'>All Languages</option>" + filter_html)
+                $("#letters_language_filter").html("<option value='0'>Languages</option>" + filter_html)
             }
         })
 
@@ -279,7 +279,7 @@
                     }
                 })
                 $("#letters_category").html(html1)
-                $("#letters_category_filter").html("<option value='0'>All Categories</option>" + html)
+                $("#letters_category_filter").html("<option value='0'>Categories</option>" + html)
             }
         })
 

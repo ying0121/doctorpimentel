@@ -97,7 +97,7 @@
                     }
                 })
                 $("#letter_category_lang").html(html)
-                $("#letter_category_lang_filter").html("<option value='0'>All Languages</option>" + filter_html)
+                $("#letter_category_lang_filter").html("<option value='0'>Languages</option>" + filter_html)
             }
         })
 
