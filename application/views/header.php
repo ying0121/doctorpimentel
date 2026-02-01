@@ -78,6 +78,10 @@
                                 style="text-wrap:nowrap;"><?php echo $component_text['menu_services'] ?></a>
                         </li>
                         <li>
+                            <a href="<?php echo base_url() ?>Fees"
+                                style="text-wrap:nowrap;"><?php echo $component_text['menu_fees'] ?></a>
+                        </li>
+                        <li>
                             <a href="<?php echo base_url() ?>Letters"
                                 style="text-wrap:nowrap;"><?php echo $component_text['menu_letters'] ?></a>
                         </li>

@@ -29,6 +29,19 @@ class Fee_model extends CI_Model
         return $this->db->select("*")->from("clinic_services")->where("home_page", 1)->where("language", $lang)->get()->result_array();
     }
 
+    function getPublicClinicFees($lang)
+    {
+        $langId = $lang == "en" ? 17 : 25;
+        $this->db->select('clinic_services.*, service_category.name AS category_name');
+        $this->db->from('clinic_services');
+        $this->db->join("service_category", "clinic_services.category = service_category.id");
+        $this->db->where('clinic_services.show_in_fee', 1);
+        $this->db->where('clinic_services.status', 1);
+        $this->db->where('clinic_services.language', $langId);
+        $this->db->order_by("clinic_services.order", "asc");
+        return $this->db->get()->result_array();
+    }
+
     function addClinicFee($data)
     {
         $record = array(
