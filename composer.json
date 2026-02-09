@@ -6,6 +6,7 @@
         "guzzlehttp/guzzle": "^7.0",
         "nategood/httpful": "^1.0",
         "phpmailer/phpmailer": "^6.9",
-        "2captcha/2captcha": "^1.2"
+        "2captcha/2captcha": "^1.2",
+        "firebase/php-jwt": "*"
     }
 }

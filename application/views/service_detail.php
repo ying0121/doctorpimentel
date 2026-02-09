@@ -199,6 +199,7 @@
                     </div>
                 </div>
                 <div class="modal-footer">
+                    <button type="button" class="btn btn-success" id="service_request_modal_pay"><?php echo $component_text['btn_pay'] ?></button>
                     <button type="button" class="btn btn-primary" id="service_request_modal_send"><?php echo $component_text['t_request'] ?></button>
                     <button type="button" class="btn btn-danger" id="service_request_modal_close"><?php echo $component_text['c_item_close'] ?></button>
                 </div>
@@ -244,62 +245,73 @@
 </body>
 
 <script>
-    const id = "<?php echo $service['id']; ?>"
+    let _selected_service_id = "<?php echo $service['id']; ?>";
+    let _selected_service_title = "";
+    let _selected_service_cost = 0;
+
     $(document).ready(function() {
         // request service
         $("#request_service").click(function() {
-            const title = $(this).attr("data-title")
+            _selected_service_title = $(this).attr("data-title")
+            
             $.ajax({
                 url: '<?php echo base_url(); ?>' + 'Services/getCost',
                 method: 'POST',
                 data: {
-                    id: id
+                    id: _selected_service_id
                 },
                 dataType: "json",
                 success: function(res) {
-                    const cost = parseFloat(res.cost)
-                    if (cost > 0) { // payment modal
-                        $("#payment-modal-title").text(title + ` - $${cost}`)
-                        $("#payment-modal").css({
-                            'display': 'block'
-                        })
-
-                        // initialize payment form
-                        $("#payment-category").val("service")
-                        $("#payment-category-id").val(id)
-                        
-                        payment_items = [{
-                            id: title,
-                            amount: cost * 100.0
-                        }]
-                        initialize()
-                    } else { // request modal
-                        // if login
-                        const isLogged = "<?php echo $this->session->userdata('patient_id') > 0 ?>"
-                        if (isLogged == 1) {
-                            $("#fname").val("<?php echo $patient_info['fname']; ?>")
-                            $("#lname").val("<?php echo $patient_info['lname']; ?>")
-                            $("#phone").val("<?php echo $patient_info['phone']; ?>")
-                            $("#dob").val("<?php echo $patient_info['dob']; ?>")
-                            $("#email").val("<?php echo $patient_info['email']; ?>")
-                        } else {
-                            $("#fname").val("")
-                            $("#lname").val("")
-                            $("#dob").val("")
-                            $("#email").val("")
-                            $("#phone").val("")
-                        }
-                        $("#message").val("")
-                        $("#captcha").val("")
-
-                        $("#service_name").val(title)
-                        $("#service_title").text(`<?php echo $component_text['t_request_service']; ?> - ${title}`)
-                        $("#service_request_modal").css({
-                            'display': 'block'
-                        })
+                    _selected_service_cost = parseFloat(res.cost)
+                    if (_selected_service_cost > 0) {
+                        $("#service_request_modal_pay").css({ 'display': 'block' })
+                    } else {
+                        $("#service_request_modal_pay").css({ 'display': 'none' })
                     }
+
+                    // if login
+                    const isLogged = "<?php echo $this->session->userdata('patient_id') > 0 ?>"
+                    if (isLogged == 1) {
+                        $("#fname").val("<?php echo $patient_info['fname']; ?>")
+                        $("#lname").val("<?php echo $patient_info['lname']; ?>")
+                        $("#phone").val("<?php echo $patient_info['phone']; ?>")
+                        $("#dob").val("<?php echo $patient_info['dob']; ?>")
+                        $("#email").val("<?php echo $patient_info['email']; ?>")
+                    } else {
+                        $("#fname").val("")
+                        $("#lname").val("")
+                        $("#dob").val("")
+                        $("#email").val("")
+                        $("#phone").val("")
+                    }
+                    $("#message").val("")
+                    $("#captcha").val("")
+
+                    $("#service_name").val(_selected_service_title)
+                    $("#service_title").text(`<?php echo $component_text['t_request_service']; ?> - ${_selected_service_title}`)
+                    $("#service_request_modal").css({ 'display': 'block' })
                 }
             })
+        })
+
+        $("#service_request_modal_pay").click(function() {
+            if (_selected_service_cost > 0) {
+                $("#service_request_modal_pay").css({ 'display': 'block' })
+                $("#payment-modal-title").text(_selected_service_title + ` - $${_selected_service_cost}`)
+
+                $("#service_request_modal").css({ 'display': 'none' })
+                $("#payment-modal").css({ 'display': 'block' })
+
+                // initialize payment form
+                $("#payment-category").val("service")
+                $("#payment-category-id").val(_selected_service_id)
+                
+                payment_items = [{
+                    id: _selected_service_title,
+                    amount: _selected_service_cost * 100.0
+                }]
+                initialize()
+            }
         })
 
         $("#service_request_modal_send").click(function() {
@@ -506,6 +518,12 @@
                 $('#service_opt_moreinfo').addClass('d-none');
                 $('#service_opt_more_info_btn').text("<?php echo $component_text['t_opt_more_info'] . ' >>'; ?>");
             }
+        })
+
+        $(".modal-close").click(function() {
+            $(".modal").css({
+                'display': 'none'
+            })
         })
     })
 </script>

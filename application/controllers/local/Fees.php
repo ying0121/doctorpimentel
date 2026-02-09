@@ -12,12 +12,14 @@ class Fees extends CI_Controller
         parent::__construct();
         $this->load->model('Content_model');
         $this->load->model('Fee_model');
+        $this->load->model('AreaToggle_model');
     }
 
     function index()
     {
         $data['sideitem'] = 'fees';
         $data['component'] = $this->Content_model->getComponentTexts();
+        $data['area_toggle'] = $this->AreaToggle_model->read();
         $this->load->view('local/fee/main', $data);
     }
 
@@ -128,6 +130,19 @@ class Fees extends CI_Controller
             'note_es' => $_POST['note_es']
         );
         $result = $this->Fee_model->updateMeta($data);
+        if ($result) {
+            echo json_encode(array('status' => 'success'));
+        } else {
+            echo json_encode(array('status' => 'error'));
+        }
+    }
+
+    function updateDisplayFeePage()
+    {
+        $data = array(
+            'value' => $_POST['value']
+        );
+        $result = $this->AreaToggle_model->update('fee_area', $data['value']);
         if ($result) {
             echo json_encode(array('status' => 'success'));
         } else {

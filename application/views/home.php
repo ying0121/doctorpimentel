@@ -893,42 +893,20 @@
                     </div>
                 </div>
                 <div class="modal-footer">
+                    <button type="button" class="btn btn-success" id="service_request_modal_pay"><?php echo $component_text['btn_pay'] ?></button>
                     <button type="button" class="btn btn-primary" id="service_request_modal_send"><?php echo $component_text['t_request'] ?></button>
                     <button type="button" class="btn btn-danger" id="service_request_modal_close"><?php echo $component_text['c_item_close'] ?></button>
                 </div>
             </div>
         </div>
     </div>
-
-    <div class="modal modal-fade scroll-y" tabindex="-1" role="dialog" aria-hidden="true" id="service_payment_modal">
-        <div class="modal-dialog modal-md" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h3 style="font-size: 24px;" id="service_payment_title"></h3>
-                    <div><i class="modal-close fa fa-times" style="cursor: pointer;"></i></div>
-                </div>
-                <div class="modal-body">
-                    <div class="row payment-container">
-                        <!-- Display a payment form -->
-                        <form id="payment-form">
-                            <div id="payment-element">
-                                <!--Stripe.js injects the Payment Element-->
-                            </div>
-                            <div id="payment-message" class="hidden"></div>
-                        </form>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button class="payment-button" id="submit">
-                        <div class="spinner hidden" id="spinner"></div>
-                        <span id="button-text">Pay now</span>
-                    </button>
-                </div>
-            </div>
-        </div>
-    </div>
 </body>
 <script>
+
+    let _selected_service_id = 0;
+    let _selected_service_title = "";
+    let _selected_service_cost = 0;
+    
     $(document).ready(function() {
         const isPt = parseInt('<?php echo $patient_info['id']; ?>');
         if (isPt > 0) {
@@ -983,59 +961,66 @@
         })
 
         $(document).on("click", ".service_request", function() {
-            const id = $(this).attr("data-id")
-            const title = $(this).attr("data-title")
+            _selected_service_id = $(this).attr("data-id")
+            _selected_service_title = $(this).attr("data-title")
             $.ajax({
                 url: '<?php echo base_url(); ?>' + 'Services/getCost',
                 method: 'POST',
                 data: {
-                    id: id
+                    id: _selected_service_id
                 },
                 dataType: "json",
                 success: function(res) {
-                    const cost = parseFloat(res.cost)
-                    if (cost > 0) { // payment modal
-                        $("#service_payment_title").text(title + ` - $${cost}`)
-                        $("#service_payment_modal").css({
-                            'display': 'block'
-                        })
-
-                        // initialize payment form
-                        $("#payment-category").val("service")
-                        $("#payment-category-id").val(id)
-                        
-                        payment_items = [{
-                            id: title,
-                            amount: cost * 100.0
-                        }]
-                        initialize()
-                    } else { // request modal
-                        // if login
-                        const isLogged = "<?php echo $this->session->userdata('patient_id') > 0 ?>"
-                        if (isLogged == 1) {
-                            $("#fname").val("<?php echo $patient_info['fname']; ?>")
-                            $("#lname").val("<?php echo $patient_info['lname']; ?>")
-                            $("#phone").val("<?php echo $patient_info['phone']; ?>")
-                            $("#dob").val("<?php echo $patient_info['dob']; ?>")
-                            $("#email").val("<?php echo $patient_info['email']; ?>")
-                        } else {
-                            $("#fname").val("")
-                            $("#lname").val("")
-                            $("#dob").val("")
-                            $("#email").val("")
-                            $("#phone").val("")
-                        }
-                        $("#message").val("")
-                        $("#captcha").val("")
-
-                        $("#service_name").val(title)
-                        $("#service_title").text(`<?php echo $component_text['t_request_service']; ?> - ${title}`)
-                        $("#service_request_modal").css({
-                            'display': 'block'
-                        })
+                    _selected_service_cost = parseFloat(res.cost)
+                    if (_selected_service_cost > 0) {
+                        $("#service_request_modal_pay").css({ 'display': 'block' })
+                    } else {
+                        $("#service_request_modal_pay").css({ 'display': 'none' })
                     }
+
+                    // if login
+                    const isLogged = "<?php echo $this->session->userdata('patient_id') > 0 ?>"
+                    if (isLogged == 1) {
+                        $("#fname").val("<?php echo $patient_info['fname']; ?>")
+                        $("#lname").val("<?php echo $patient_info['lname']; ?>")
+                        $("#phone").val("<?php echo $patient_info['phone']; ?>")
+                        $("#dob").val("<?php echo $patient_info['dob']; ?>")
+                        $("#email").val("<?php echo $patient_info['email']; ?>")
+                    } else {
+                        $("#fname").val("")
+                        $("#lname").val("")
+                        $("#dob").val("")
+                        $("#email").val("")
+                        $("#phone").val("")
+                    }
+                    $("#message").val("")
+                    $("#captcha").val("")
+
+                    $("#service_name").val(_selected_service_title)
+                    $("#payment-modal-title").text(`<?php echo $component_text['t_request_service']; ?> - ${_selected_service_title}`)
+                    $("#service_request_modal").css({ 'display': 'block' })
                 }
             })
+        })
+
+        $("#service_request_modal_pay").click(function() {
+            if (_selected_service_cost > 0) {
+                $("#service_request_modal_pay").css({ 'display': 'block' })
+                $("#service_payment_title").text(_selected_service_title + ` - $${_selected_service_cost}`)
+
+                $("#service_request_modal").css({ 'display': 'none' })
+                $("#payment-modal").css({ 'display': 'block' })
+
+                // initialize payment form
+                $("#payment-category").val("service")
+                $("#payment-category-id").val(_selected_service_id)
+
+                payment_items = [{
+                    id: _selected_service_title,
+                    amount: _selected_service_cost * 100.0
+                }]
+                initialize()
+            }
         })
 
         $(".modal-close").click(function() {

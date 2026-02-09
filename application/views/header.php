@@ -61,38 +61,16 @@
             <div class="nav-wrap col-lg-10 d-flex align-items-center">
                 <nav id="mainnav" class="mainnav">
                     <ul class="menu menu-scroll-y">
-                        <li>
-                            <a href="<?php echo base_url() ?>"
-                                style="text-wrap:nowrap;"><?php echo $component_text['menu_home'] ?></a>
-                        </li>
-                        <li>
-                            <a href="<?php echo base_url() ?>TheClinic"
-                                style="text-wrap:nowrap;"><?php echo $component_text['menu_the_clinic'] ?></a>
-                        </li>
-                        <li>
-                            <a href="<?php echo base_url() ?>AboutUs"
-                                style="text-wrap:nowrap;"><?php echo $component_text['menu_about_us'] ?></a>
-                        </li>
-                        <li>
-                            <a href="<?php echo base_url() ?>Services"
-                                style="text-wrap:nowrap;"><?php echo $component_text['menu_services'] ?></a>
-                        </li>
-                        <li>
-                            <a href="<?php echo base_url() ?>Fees"
-                                style="text-wrap:nowrap;"><?php echo $component_text['menu_fees'] ?></a>
-                        </li>
-                        <li>
-                            <a href="<?php echo base_url() ?>Letters"
-                                style="text-wrap:nowrap;"><?php echo $component_text['menu_letters'] ?></a>
-                        </li>
-                        <li>
-                            <a href="<?php echo base_url() ?>Orientation"
-                                style="text-wrap:nowrap;"><?php echo $component_text['menu_orientation'] ?></a>
-                        </li>
-                        <li>
-                            <a href="<?php echo base_url() ?>CommunityResources"
-                                style="text-wrap:nowrap;"><?php echo $component_text['menu_community_resources'] ?></a>
-                        </li>
+                        <li><a href="<?php echo base_url() ?>" style="text-wrap:nowrap;"><?php echo $component_text['menu_home'] ?></a></li>
+                        <li><a href="<?php echo base_url() ?>TheClinic" style="text-wrap:nowrap;"><?php echo $component_text['menu_the_clinic'] ?></a></li>
+                        <li><a href="<?php echo base_url() ?>AboutUs" style="text-wrap:nowrap;"><?php echo $component_text['menu_about_us'] ?></a></li>
+                        <li><a href="<?php echo base_url() ?>Services" style="text-wrap:nowrap;"><?php echo $component_text['menu_services'] ?></a></li>
+                        <li><a href="<?php echo base_url() ?>Letters" style="text-wrap:nowrap;"><?php echo $component_text['menu_letters'] ?></a></li>
+                        <?php if ($area_toggle['fee_area']): ?>
+                            <li><a href="<?php echo base_url() ?>Fees" style="text-wrap:nowrap;"><?php echo $component_text['menu_fees'] ?></a></li>
+                        <?php endif ?>
+                        <li><a href="<?php echo base_url() ?>Orientation" style="text-wrap:nowrap;"><?php echo $component_text['menu_orientation'] ?></a></li>
+                        <li><a href="<?php echo base_url() ?>CommunityResources" style="text-wrap:nowrap;"><?php echo $component_text['menu_community_resources'] ?></a></li>
                         <li class="menu-item-has-children">
                             <a href="#" style="text-wrap:nowrap;"><?php echo $component_text['menu_education'] ?></a>
                             <ul class="sub-menu">

@@ -198,6 +198,7 @@
                     </div>
                 </div>
                 <div class="modal-footer">
+                    <button type="button" class="btn btn-success" id="letter_request_modal_pay"><?php echo $component_text['btn_pay'] ?></button>
                     <button type="button" class="btn btn-primary" id="letter_request_modal_send"><?php echo $component_text['t_request'] ?></button>
                     <button type="button" class="btn btn-danger" id="letter_request_modal_close"><?php echo $component_text['c_item_close'] ?></button>
                 </div>
@@ -207,62 +208,71 @@
 </body>
 
 <script>
-    const id = "<?php echo $letter['id']; ?>"
+    let _selected_letter_id = "<?php echo $letter['id']; ?>";
+    let _selected_letter_title = "";
+    let _selected_letter_cost = 0;
     $(document).ready(function() {
         // request letter
         $("#request_letter").click(function() {
-            const title = $(this).attr("data-title")
+            _selected_letter_title = $(".letter-title").text()
             $.ajax({
                 url: '<?php echo base_url(); ?>' + 'Letters/getCost',
                 method: 'POST',
                 data: {
-                    id: id
+                    id: _selected_letter_id
                 },
                 dataType: 'json',
                 success: function(res) {
-                    const cost = parseFloat(res.cost)
-                    if (cost > 0) {
-                        $("#payment-modal-title").text(title + ` - $${cost}`)
-                        $("#payment-modal").css({
-                            'display': 'block'
-                        })
-
-                        // initialize payment form
-                        $("#payment-category").val("letter")
-                        $("#payment-category-id").val(id)
-
-                        payment_items = [{
-                            id: title,
-                            amount: cost * 100.0
-                        }]
-                        initialize()
+                    _selected_letter_cost = parseFloat(res.cost)
+                    if (_selected_letter_cost > 0) {
+                        $("#letter_request_modal_pay").css({ 'display': 'block' })
                     } else {
-                        // if login
-                        const isLogged = "<?php echo $this->session->userdata('patient_id') > 0 ?>"
-                        if (isLogged == 1) {
-                            $("#fname").val("<?php echo $patient_info['fname']; ?>")
-                            $("#lname").val("<?php echo $patient_info['lname']; ?>")
-                            $("#phone").val("<?php echo $patient_info['phone']; ?>")
-                            $("#dob").val("<?php echo $patient_info['dob']; ?>")
-                            $("#email").val("<?php echo $patient_info['email']; ?>")
-                        } else {
-                            $("#fname").val("")
-                            $("#lname").val("")
-                            $("#dob").val("")
-                            $("#email").val("")
-                            $("#phone").val("")
-                        }
-                        $("#message").val("")
-                        $("#captcha").val("")
-
-                        $("#letter_name").val(title)
-                        $("#letter_title").text(`<?php echo $component_text['t_request_letter']; ?> - ${title}`)
-                        $("#letter_request_modal").css({
-                            'display': 'block'
-                        })
+                        $("#letter_request_modal_pay").css({ 'display': 'none' })
                     }
+
+                    // if login
+                    const isLogged = "<?php echo $this->session->userdata('patient_id') > 0 ?>"
+                    if (isLogged == 1) {
+                        $("#fname").val("<?php echo $patient_info['fname']; ?>")
+                        $("#lname").val("<?php echo $patient_info['lname']; ?>")
+                        $("#phone").val("<?php echo $patient_info['phone']; ?>")
+                        $("#dob").val("<?php echo $patient_info['dob']; ?>")
+                        $("#email").val("<?php echo $patient_info['email']; ?>")
+                    } else {
+                        $("#fname").val("")
+                        $("#lname").val("")
+                        $("#dob").val("")
+                        $("#email").val("")
+                        $("#phone").val("")
+                    }
+                    $("#message").val("")
+                    $("#captcha").val("")
+
+                    $("#letter_name").val(_selected_letter_title)
+                    $("#letter_title").text(`<?php echo $component_text['t_request_letter']; ?> - ${_selected_letter_title}`)
+                    $("#letter_request_modal").css({ 'display': 'block' })
                 }
             })
+        })
+
+        $("#letter_request_modal_pay").click(function() {
+            if (_selected_letter_cost > 0) {
+                $("#letter_request_modal_pay").css({ 'display': 'block' })
+                $("#payment-modal-title").text(_selected_letter_title + ` - $${_selected_letter_cost}`)
+
+                $("#letter_request_modal").css({ 'display': 'none' })
+                $("#payment-modal").css({ 'display': 'block' })
+
+                // initialize payment form
+                $("#payment-category").val("letter")
+                $("#payment-category-id").val(_selected_letter_id)
+
+                payment_items = [{
+                    id: _selected_letter_title,
+                    amount: _selected_letter_cost * 100.0
+                }]
+                initialize()
+            }
         })
 
         $("#letter_request_modal_send").click(function() {
@@ -377,6 +387,12 @@
                 $('#letters_opt_moreinfo').addClass('d-none');
                 $('#letters_opt_more_info_btn').text("<?php echo $component_text['t_opt_more_info'] . ' >>'; ?>");
             }
+        })
+
+        $(".modal-close").click(function() {
+            $(".modal").css({
+                'display': 'none'
+            })
         })
     })
 </script>
