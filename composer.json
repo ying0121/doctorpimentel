@@ -7,6 +7,6 @@
         "nategood/httpful": "^1.0",
         "phpmailer/phpmailer": "^6.9",
         "2captcha/2captcha": "^1.2",
-        "firebase/php-jwt": "*"
+        "firebase/php-jwt": "^7.0"
     }
 }
