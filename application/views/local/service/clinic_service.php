@@ -1,3 +1,27 @@
+<style>
+    .clinic-service-video-preview {
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 90px;
+        height: 60px;
+        border-radius: 4px;
+        background: #1a1a1a;
+        color: #fff;
+        transition: background 0.2s;
+    }
+    .clinic-service-video-preview:hover {
+        background: #333;
+    }
+    .clinic-service-video-preview i {
+        font-size: 2rem;
+        opacity: 0.9;
+    }
+    #clinic_service_video_modal .modal-dialog { max-width: 720px; }
+    #clinic_service_video_modal video { width: 100%; max-height: 70vh; }
+</style>
+
 <div class="row my-3 p-10 bg-white border rounded">
     <div class="col-12 mb-4 d-flex justify-content-between align-items-center my-5">
         <div class="d-flex justify-content-start align-items-center">
@@ -123,6 +147,12 @@
                             <div class="mr-1 fs-2">&nbsp;Home Page</div>
                         </div>
                     </div>
+                    <div class="col-md-6 mb-5">
+                        <div class="d-flex align-items-center">
+                            <div class="d-flex align-items-center"><input type="checkbox" id="clinic_service_use_video" style="width:24px; height:24px;"></div>
+                            <div class="mr-1 fs-2">&nbsp;Use Video</div>
+                        </div>
+                    </div>
                 </div>
             </div>
             <!-- Modal footer -->
@@ -165,6 +195,16 @@
             <div class="modal-footer">
                 <button type="button" class="btn btn-light-primary" id="clinic_service_file_save_btn">Upload</button>
                 <button type="button" class="btn btn-light-danger" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="clinic_service_video_modal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-body p-0 bg-dark">
+                <video id="clinic_service_video_player" controls playsinline></video>
             </div>
         </div>
     </div>
@@ -255,7 +295,11 @@
             }, {
                 data: 'video',
                 render: function(data, type, row) {
-                    return row.video ? `<a href="<?php echo base_url() ?>assets/service/video/${row.video}" class="text-primary" target="_blank">${row.video}</a>` : ""
+                    if (!row.video) return ""
+                    const videoUrl = "<?php echo base_url() ?>assets/service/video/" + row.video
+                    return `<div class="clinic-service-video-preview" data-video-url="${videoUrl}" data-video-filename="${row.video}" title="Click to play">
+                        <i class="fas fa-play"></i>
+                    </div>`
                 }
             }, {
                 data: 'status',
@@ -307,6 +351,7 @@
                 request_service: $("#clinic_service_request").prop("checked") == true ? 1 : 0,
                 online_payment: $("#clinic_service_payment").prop("checked") == true ? 1 : 0,
                 home_page: $("#clinic_service_home").prop("checked") == true ? 1 : 0,
+                use_video: $("#clinic_service_use_video").prop("checked") == true ? 1 : 0,
                 cost: $("#clinic_service_cost").val()
             }
 
@@ -438,6 +483,7 @@
                     $("#clinic_service_request").prop("checked", result.request_service == 0 ? false : true)
                     $("#clinic_service_payment").prop("checked", result.online_payment == 0 ? false : true)
                     $("#clinic_service_home").prop("checked", result.home_page == 0 ? false : true)
+                    $("#clinic_service_use_video").prop("checked", result.use_video == 0 ? false : true)
                     $("#clinic_service_cost").val(result.cost)
 
                     $("#clinic_service_modal").modal("show")
@@ -471,6 +517,25 @@
             $('#progress-percentage-file').text(Math.round(0) + '%');
 
             $("#clinic_service_file_modal").modal("show")
+        })
+
+        $(document).on("click", ".clinic-service-video-preview", function() {
+            const url = $(this).data("video-url")
+            const filename = $(this).data("video-filename")
+            if (!url) return
+            const player = document.getElementById("clinic_service_video_player")
+            $("#clinic_service_video_modal_title").text(filename || "Video")
+            player.src = url
+            player.load()
+            player.play()
+            $("#clinic_service_video_modal").modal("show")
+        })
+
+        $("#clinic_service_video_modal").on("hidden.bs.modal", function() {
+            const player = document.getElementById("clinic_service_video_player")
+            player.pause()
+            player.removeAttribute("src")
+            player.load()
         })
 
         $(document).on("click", ".clinic_service_download", function() {

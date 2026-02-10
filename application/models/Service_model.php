@@ -43,6 +43,7 @@ class Service_model extends CI_Model
             'request_service' => $data['request_service'],
             'online_payment' => $data['online_payment'],
             'home_page' => $data['home_page'],
+            'use_video' => $data['use_video'],
             'cost' => $data['cost']
         );
         $result = $this->db->insert('clinic_services', $record);
@@ -81,6 +82,7 @@ class Service_model extends CI_Model
             'request_service' => $data['request_service'],
             'online_payment' => $data['online_payment'],
             'home_page' => $data['home_page'],
+            'use_video' => $data['use_video'],
             'cost' => $data['cost']
         );
         $result = $this->db->where('id', $data['id'])->update('clinic_services', $record);

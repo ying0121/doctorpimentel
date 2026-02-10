@@ -43,6 +43,7 @@ class Services extends CI_Controller
             'request_service' => $_POST['request_service'],
             'online_payment' => $_POST['online_payment'],
             'home_page' => $_POST['home_page'],
+            'use_video' => $_POST['use_video'],
             'cost' => $_POST['cost']
         );
         $result = $this->Service_model->addClinicService($data);
@@ -68,6 +69,7 @@ class Services extends CI_Controller
             'request_service' => $_POST['request_service'],
             'online_payment' => $_POST['online_payment'],
             'home_page' => $_POST['home_page'],
+            'use_video' => $_POST['use_video'],
             'cost' => $_POST['cost']
         );
         $result = $this->Service_model->updateClinicService($data);
