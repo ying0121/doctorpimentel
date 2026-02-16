@@ -143,6 +143,11 @@ class Home extends CI_Controller
             // get patient info
             $pt_info = $this->Patient_model->getPatientByPtEmail($email);
 
+            if ($patient_type == 2) {
+                error_log(json_encode($pt_info));
+                $this->Patient_model->setNewPatient($pt_info[0]['id']);
+            }
+
             // save
             $data = array(
                 'clinic' => 'GENERAL MEDICAL',

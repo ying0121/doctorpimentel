@@ -509,14 +509,14 @@
                                                         </div>
                                                         <div class="col-12">
                                                             <div class="row justify-content-center align-items-center">
-                                                                <div class="col-9 col-md-4 mb-2">
+                                                                <div class="col-9 col-md-4 mb-4">
                                                                     <img id="contact_captcha_image" src="<?php echo base_url() . $captcha_image ?>" alt="Captcha Image" class="w-100" />
                                                                 </div>
-                                                                <div class="col-3 col-md-1 mb-2" style="padding: 0px; font-size: 32px;">
+                                                                <div class="col-3 col-md-1 mb-4" style="padding: 0px; font-size: 32px;">
                                                                     <i id="captcha_change" class="fa fa-lg fa-rotate-right text-primary" style="transform:translateY(50%); cursor: pointer;"></i>
                                                                 </div>
                                                                 <div class="col-12 col-md-7 mb-4">
-                                                                    <input tabindex="3" id="contact_captcha" name="captcha" value="" class="input-contact" type="text" placeholder="<?php echo $component_text['placeholder_captcha']; ?>" autocomplete="new-captcha">
+                                                                    <input tabindex="3" id="contact_captcha" name="captcha" value="" class="input-contact m-0 p-0" type="text" placeholder="<?php echo $component_text['placeholder_captcha']; ?>" autocomplete="new-captcha">
                                                                 </div>
                                                             </div>
                                                         </div>

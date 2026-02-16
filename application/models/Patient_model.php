@@ -339,4 +339,9 @@ class Patient_model extends CI_Model
         $this->db->or_like("phone", $value, "both");
         return $this->db->get()->result_array();
     }
+
+    function setNewPatient($id)
+    {
+        return $this->db->update("patient_list", array("is_new" => 1), "id = " . $id);
+    }
 }

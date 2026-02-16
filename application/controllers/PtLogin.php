@@ -30,6 +30,7 @@ class PtLogin extends CI_Controller
         $this->load->model('Systeminfo_model');
         $this->load->model('Alert_model');
         $this->load->model('Staff_model');
+        $this->load->model('Language_model');
     }
 
     public function index()
@@ -66,6 +67,56 @@ class PtLogin extends CI_Controller
         $data['sysinfo'] = $this->Systeminfo_model->readSysInfo();
         $data['alerts'] = $this->Alert_model->getAvailableAlert();
         $data['acronym'] = $this->ContactInfo_model->readAcronym()['acronym'];
+        $data['meta'] = $this->Frontend_model->getMeta();
+        $data['languages'] = $this->Language_model->read();
+
+        // generate qr code for footer qr code
+        $vCard = "BEGIN : VCARD\n";
+        $vCard .= "VERSION : 3.0\n";
+        $vCard .= "NAME : " . $data['contact_info']["name"] . "\n";
+        if ($data['contact_info']["email"]) {
+            $vCard .= "EMAIL : " . $data['contact_info']["email"] . "\n";
+        }
+        $vCard .= "SITE : " . base_url() . "\n";
+        $vCard .= "ADDRESS : " . $data['contact_info']["address"] . "\n";
+        $vCard .= "CITY : " . $data['contact_info']["city"] . "\n";
+        $vCard .= "ZIP : " . $data['contact_info']["zip"] . "\n";
+        $vCard .= "TEL : " . $data['contact_info']["tel"] . "\n";
+        $vCard .= "FAX : " . $data['contact_info']["fax"] . "\n";
+        $vCard .= "END:VCARD";
+        $qrCode = QrCode::create($vCard)
+            ->setEncoding(new Encoding('UTF-8'))
+            ->setErrorCorrectionLevel(new ErrorCorrectionLevelLow())
+            ->setSize(210)
+            ->setMargin(-18);
+        $writer = new PngWriter();
+        $qr_res = $writer->write($qrCode);
+        $data['footer_qrcode'] = base64_encode($qr_res->getString());
+
+        if ($this->session->userdata('patient_id')) {
+            $patient = $this->Patient_model->choose($this->session->userdata('patient_id'));
+            $data['patient_info'] = $patient;
+        } else {
+            $data['patient_info'] = array(
+                'id' => 0,
+                'patient_id' => 0,
+                'fname' => '',
+                'lname' => '',
+                'mname' => '',
+                'gender' => 'M',
+                'dob' => '',
+                'email' => '',
+                'phone' => '',
+                'mobile' => '',
+                'address' => '',
+                'city' => '',
+                'state' => '',
+                'zip' => '',
+                'language' => 17,
+                'ethnicity' => '',
+                'race' => ''
+            );
+        }
 
         $this->session->set_userdata('page_status', 'signin');
 
@@ -86,12 +137,63 @@ class PtLogin extends CI_Controller
             else
                 $siteLang = 'es';
 
+            $data['meta'] = $this->Frontend_model->getMeta();
+            $data['HEADER_BANNER'] = $this->Frontend_model->getPageImages('Auth', 'HEADER-BANNER', $siteLang);
             $data['component_text'] = $this->Frontend_model->getComponentTexts($siteLang);
             $data['contact_info'] = $this->Frontend_model->getContactInfo();
             $data['area_toggle'] = $area_toggle;
             $data['working_hours'] = $this->Frontend_model->getWorkingHours($siteLang);
             $data['security'] = 1;
             $data['alerts'] = $this->Alert_model->getAvailableAlert();
+            $data['languages'] = $this->Language_model->read();
+
+            // generate qr code for footer qr code
+            $vCard = "BEGIN : VCARD\n";
+            $vCard .= "VERSION : 3.0\n";
+            $vCard .= "NAME : " . $data['contact_info']["name"];
+            if ($data['contact_info']["email"]) {
+                $vCard .= "EMAIL : " . $data['contact_info']["email"];
+            }
+            $vCard .= "SITE : " . base_url();
+            $vCard .= "ADDRESS : " . $data['contact_info']["address"];
+            $vCard .= "CITY : " . $data['contact_info']["city"];
+            $vCard .= "ZIP : " . $data['contact_info']["zip"];
+            $vCard .= "TEL : " . $data['contact_info']["tel"];
+            $vCard .= "FAX : " . $data['contact_info']["fax"];
+            $vCard .= "END:VCARD";
+            $qrCode = QrCode::create($vCard)
+                ->setEncoding(new Encoding('UTF-8'))
+                ->setErrorCorrectionLevel(new ErrorCorrectionLevelLow())
+                ->setSize(210)
+                ->setMargin(-1);
+            $writer = new PngWriter();
+            $qr_res = $writer->write($qrCode);
+            $data['footer_qrcode'] = base64_encode($qr_res->getString());
+
+            if ($this->session->userdata('patient_id')) {
+                $patient = $this->Patient_model->choose($this->session->userdata('patient_id'));
+                $data['patient_info'] = $patient;
+            } else {
+                $data['patient_info'] = array(
+                    'id' => 0,
+                    'patient_id' => 0,
+                    'fname' => '',
+                    'lname' => '',
+                    'mname' => '',
+                    'gender' => 'M',
+                    'dob' => '',
+                    'email' => '',
+                    'phone' => '',
+                    'mobile' => '',
+                    'address' => '',
+                    'city' => '',
+                    'state' => '',
+                    'zip' => '',
+                    'language' => 17,
+                    'ethnicity' => '',
+                    'race' => ''
+                );
+            }
 
             $this->session->set_userdata('page_status', 'signin');
 
@@ -138,6 +240,7 @@ class PtLogin extends CI_Controller
 
                         $this->session->set_userdata('patient_id', $result['id']);
                         $this->session->set_userdata('patient_name', $result['fname'] . " " . $result['mname'] . " " . $result['lname']);
+                        $this->session->set_userdata('security', 0);
 
                         $list = $this->Security_model->getSecurityListByUser($result['id'], 'patient');
                         if ($list) {
@@ -151,6 +254,7 @@ class PtLogin extends CI_Controller
                             $this->session->unset_userdata('loginresult');
                             redirect('PtLogin/security');
                         } else {
+                            $this->session->set_userdata('security', 1);
                             $this->session->unset_userdata('page_status');
                             redirect('Vault', 'refresh');
                         }
@@ -188,6 +292,7 @@ class PtLogin extends CI_Controller
     {
         $this->session->unset_userdata('patient_id');
         $this->session->unset_userdata('patient_name');
+        $this->session->unset_userdata('security');
         redirect('Home', 'refresh');
     }
 
@@ -202,10 +307,15 @@ class PtLogin extends CI_Controller
         $loginText = $this->Content_model->readLoginFailedContent();
 
         if ($result[0]['answer'] == md5($answer)) {
+            $this->session->set_userdata('security', 1);
             $this->session->unset_userdata('question');
             $this->session->unset_userdata('page_status');
             redirect('Vault', 'refresh');
         } else {
+            $this->session->unset_userdata('patient_id');
+            $this->session->unset_userdata('patient_name');
+            $this->session->unset_userdata('security');
+
             $failedText['en'] = $loginText['en']['t_pa_lf_failed'];
             $failedText['es'] = $loginText['es']['t_pa_lf_failed'];
             $this->session->set_userdata('loginresult', $failedText);
@@ -245,6 +355,56 @@ class PtLogin extends CI_Controller
         $data['area_toggle'] = $area_toggle;
         $data['working_hours'] = $this->Frontend_model->getWorkingHours($siteLang);
         $data['alerts'] = $this->Alert_model->getAvailableAlert();
+        $data['languages'] = $this->Language_model->read();
+        $data['meta'] = $this->Frontend_model->getMeta();
+
+        // generate qr code for footer qr code
+        $vCard = "BEGIN : VCARD\n";
+        $vCard .= "VERSION : 3.0\n";
+        $vCard .= "NAME : " . $data['contact_info']["name"] . "\n";
+        if ($data['contact_info']["email"]) {
+            $vCard .= "EMAIL : " . $data['contact_info']["email"] . "\n";
+        }
+        $vCard .= "SITE : " . base_url() . "\n";
+        $vCard .= "ADDRESS : " . $data['contact_info']["address"] . "\n";
+        $vCard .= "CITY : " . $data['contact_info']["city"] . "\n";
+        $vCard .= "ZIP : " . $data['contact_info']["zip"] . "\n";
+        $vCard .= "TEL : " . $data['contact_info']["tel"] . "\n";
+        $vCard .= "FAX : " . $data['contact_info']["fax"] . "\n";
+        $vCard .= "END:VCARD";
+        $qrCode = QrCode::create($vCard)
+            ->setEncoding(new Encoding('UTF-8'))
+            ->setErrorCorrectionLevel(new ErrorCorrectionLevelLow())
+            ->setSize(210)
+            ->setMargin(-18);
+        $writer = new PngWriter();
+        $qr_res = $writer->write($qrCode);
+        $data['footer_qrcode'] = base64_encode($qr_res->getString());
+
+        if ($this->session->userdata('patient_id')) {
+            $patient = $this->Patient_model->choose($this->session->userdata('patient_id'));
+            $data['patient_info'] = $patient;
+        } else {
+            $data['patient_info'] = array(
+                'id' => 0,
+                'patient_id' => 0,
+                'fname' => '',
+                'lname' => '',
+                'mname' => '',
+                'gender' => 'M',
+                'dob' => '',
+                'email' => '',
+                'phone' => '',
+                'mobile' => '',
+                'address' => '',
+                'city' => '',
+                'state' => '',
+                'zip' => '',
+                'language' => 17,
+                'ethnicity' => '',
+                'race' => ''
+            );
+        }
 
         $this->session->unset_userdata('loginresult');
         $this->session->set_userdata('page_status', 'help');
