@@ -103,32 +103,27 @@ class V1 extends CI_Controller
             $user = $this->jwt_authenticate();
             // Get query params
             $patient_id = $this->input->get('patient_id');
-            $fname      = $this->input->get('fname');
-            $lname      = $this->input->get('lname');
+            $name       = $this->input->get('name');
             $email      = $this->input->get('email');
             $phone      = $this->input->get('phone');
             $dob        = $this->input->get('dob');
 
             // Select attributes
             $this->db->select([
-                'patient_id', 'fname', 'mname', 'lname', 'email',
-                'phone', 'mobile', 'address', 'city', 'state',
-                'zip', 'gender', 'dob', 'language', 'ethnicity', 'race'
+                'pt_emr_id', 'clinic_id', 'name', 'email', 'cel', 'dob'
             ]);
 
-            $this->db->from('patient_list');
+            $this->db->from('f_com_contact');
+
+            $this->db->where('patient_type', 2);
 
             // Filters
             if ($patient_id) {
-                $this->db->where('patient_id', $patient_id);
+                $this->db->where('pt_emr_id', $patient_id);
             }
 
-            if ($fname) {
-                $this->db->like('fname', $fname);
-            }
-
-            if ($lname) {
-                $this->db->like('lname', $lname);
+            if ($name) {
+                $this->db->like('name', $name);
             }
 
             if ($email) {
@@ -140,8 +135,7 @@ class V1 extends CI_Controller
                 $phoneDigits = preg_replace('/\D+/', '', $phone);
                 if ($phoneDigits) {
                     $this->db->group_start()
-                        ->where("REGEXP_REPLACE(phone, '[^0-9]', '') LIKE '%{$phoneDigits}%'", null, false)
-                        ->or_where("REGEXP_REPLACE(mobile, '[^0-9]', '') LIKE '%{$phoneDigits}%'", null, false)
+                        ->where("REGEXP_REPLACE(cel, '[^0-9]', '') LIKE '%{$phoneDigits}%'", null, false)
                     ->group_end();
                 }
             }
@@ -157,6 +151,8 @@ class V1 extends CI_Controller
                     );
                 }
             }
+
+            $this->db->group_by('pt_emr_id');
 
             $query = $this->db->get();
             $patients = $query->result_array();

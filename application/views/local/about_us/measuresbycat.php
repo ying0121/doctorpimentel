@@ -99,8 +99,11 @@
                                     <input class="form-control datepicker" id="edate" name="edate" />
                                 </div>
                             </div>
-                            <div class="col-md-12">
+                            <div class="col-md-6">
                                 <h6 style="font-size: 16px;">Description</h6>
+                            </div>
+                            <div class="col-md-6">
+                                <h6 style="font-size: 16px;">Descripción</h6>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
@@ -112,8 +115,11 @@
                                     <div id="desc_es"></div>
                                 </div>
                             </div>
-                            <div class="col-md-12">
+                            <div class="col-md-6">
                                 <h6 style="font-size: 16px;">Full Description</h6>
+                            </div>
+                            <div class="col-md-6">
+                                <h6 style="font-size: 16px;">Descripción Completa</h6>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
@@ -129,8 +135,8 @@
                     </div>
                     <!-- Modal footer -->
                     <div class="modal-footer">
-                            <button type="button" class="btn btn-light-primary addbtn" data-dismiss="modal">Done</button>
-                            <button type="button" class="btn btn-light-danger" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-light-primary addbtn" data-dismiss="modal">Done</button>
+                        <button type="button" class="btn btn-light-danger" data-dismiss="modal">Close</button>
                     </div>
                 </div>
             </div>
@@ -140,8 +146,8 @@
                 <div class="modal-content">
                     <!-- Modal Header -->
                     <div class="modal-header">
-                            <h4 class="modal-title ">Edit Measure</h4>
-                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title ">Edit Measure</h4>
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
                     </div>
                     <!-- Modal body -->
                     <div class="modal-body">
@@ -195,8 +201,11 @@
                                     <input class="form-control datepicker" id="eedate" name="eedate" />
                                 </div>
                             </div>
-                            <div class="col-md-12">
+                            <div class="col-md-6">
                                 <h6 style="font-size: 16px;">Description</h6>
+                            </div>
+                            <div class="col-md-6">
+                                <h6 style="font-size: 16px;">Descripción</h6>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
@@ -208,8 +217,11 @@
                                     <div id="edesc_es"></div>
                                 </div>
                             </div>
-                            <div class="col-md-12">
+                            <div class="col-md-6">
                                 <h6 style="font-size: 16px;">Full Description</h6>
+                            </div>
+                            <div class="col-md-6">
+                                <h6 style="font-size: 16px;">Descripción Completa</h6>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
@@ -234,8 +246,8 @@
                     </div>
                     <!-- Modal footer -->
                     <div class="modal-footer">
-                            <button type="button" class="btn btn-light-primary updatebtn" data-dismiss="modal">Done</button>
-                            <button type="button" class="btn btn-light-danger" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-light-primary updatebtn" data-dismiss="modal">Done</button>
+                        <button type="button" class="btn btn-light-danger" data-dismiss="modal">Close</button>
                     </div>
                 </div>
             </div>
