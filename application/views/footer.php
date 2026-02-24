@@ -12,11 +12,12 @@
                             <li><a href="<?php echo base_url() ?>TheClinic" title=""><span><i class="fa fa-square"></i></span><?php echo $component_text['menu_the_clinic'] ?></a></li>
                             <li><a href="<?php echo base_url() ?>AboutUs" title=""><span><i class="fa fa-square"></i></span><?php echo $component_text['menu_about_us'] ?></a></li>
                             <li><a href="<?php echo base_url() ?>Orientation" title=""><span><i class="fa fa-square"></i></span><?php echo $component_text['menu_orientation'] ?></a></li>
+                            <li><a href="<?php echo base_url() ?>Qualitymetrics" title=""><span><i class="fa fa-square"></i></span><?php echo $component_text['t_quality_metrics_title'] ?></a></li>
                             <li><a href="<?php echo base_url() ?>Insurances" title=""><span><i class="fa fa-square"></i></span><?php echo $component_text['menu_insurances'] ?></a></li>
                             <li><a href="<?php echo base_url() ?>Newsletter" title=""><span><i class="fa fa-square"></i></span><?php echo $component_text['menu_newsletter'] ?></a></li>
                             <li class="mx-3"><a href="#" title=""><span><i class="fa fa-square"></i></span><?php echo $component_text['menu_contact'] ?></a></li>
                             <li class="mx-3"><a href="#" title=""><span><i class="fa fa-square"></i></span><?php echo $component_text['link_portal'] ?></a></li>
-                        </ul><!-- /.one-half -->
+                        </ul>
                     </div><!-- Medical Guide -->
                     <div class="box-list box-useful col-md-3 col-12">
                         <div class="title-footer text-color-white mb-4"><a><?php echo $component_text['c_footer_announcement'] ?></a></div>
