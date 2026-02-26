@@ -42,6 +42,7 @@
             <table class="table w-100" id="clinic_service_table">
                 <thead>
                     <th>Order</th>
+                    <th>Cost</th>
                     <th>Title</th>
                     <th>Key</th>
                     <th>Short Description</th>
@@ -281,6 +282,8 @@
             },
             "columns": [{
                 data: 'order'
+            }, {
+                data: 'cost'
             }, {
                 data: 'title'
             }, {

@@ -446,7 +446,7 @@
                 name: $("#friend_name").val(),
                 email: $("#friend_email").val(),
                 captcha: $("#friend_captcha").val(),
-                id: id
+                id: _selected_service_id
             }
 
             var errors = "";
@@ -476,7 +476,7 @@
                         name: encrypt.encrypt(entry.name),
                         email: encrypt.encrypt(entry.email),
                         captcha: encrypt.encrypt(entry.captcha),
-                        id: id,
+                        id: _selected_service_id,
                     },
                     dataType: "json",
                     success: function(data) {
