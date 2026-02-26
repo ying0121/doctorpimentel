@@ -170,6 +170,7 @@ class Vault extends CI_Controller
             'id' => $case_number,
             'title' => "Email From General Medical Services of Queens",
             'reason' => $data['reason'],
+            'patient_type' => "Existing Patient",
             'subject' => $data['subject'],
             'name' => $data['name'],
             'email' => $data['email'],
@@ -231,6 +232,7 @@ class Vault extends CI_Controller
         $data = array(
             'id' => 0,
             'title' => "Email From General Medical Services of Queens",
+            'patient_type' => "Existing Patient",
             'reason' => $contact['reason'],
             'subject' => "Message From " . $contact['name'],
             'name' => $contact['name'],

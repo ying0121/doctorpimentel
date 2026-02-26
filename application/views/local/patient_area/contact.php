@@ -557,6 +557,23 @@
 <script>
     var table_status = 0;
 
+    function formatPhone(phone) {
+        let digits = phone.replace(/\D/g, '');
+
+        // 11 digits starting with 1
+        if (digits.length === 11 && digits.startsWith('1')) {
+            return `+${digits[0]} (${digits.slice(1,4)}) ${digits.slice(4,7)}-${digits.slice(7)}`;
+        }
+
+        // 10 digits (no country code)
+        if (digits.length === 10) {
+            return `+1 (${digits.slice(0,3)}) ${digits.slice(3,6)}-${digits.slice(6)}`;
+        }
+
+        // fallback
+        return digits;
+    }
+
     function getTimeDiff(start, end) {
         var diff = parseInt(Math.abs(new Date(end) - new Date(start)) / 1000)
         var _str = ''
@@ -604,7 +621,8 @@
                         data.end_date = $("#contact_end_date").val()
                 }
             },
-            "columns": [{
+            "columns": [
+                {
                     data: 'case_number',
                     render: function(data, type, row) {
                         return `${row.case_number}${'<?php echo $acronym; ?>'}`
@@ -629,10 +647,27 @@
                 {
                     data: 'reason',
                     render: function(data, type, row) {
+                        let patient_type = ""
+                        if (row.patient_type == 1) {
+                            patient_type = "Existing&nbsp;&nbsp;&nbsp;&nbsp;Patient"
+                        } else if (row.patient_type == 2) {
+                            patient_type = "New&nbsp;&nbsp;&nbsp;&nbsp;Patient"
+                        } else if (row.patient_type == 3) {
+                            patient_type = "Patient&nbsp;&nbsp;&nbsp;&nbsp;Institution"
+                        } else if (row.patient_type == 4) {
+                            patient_type = "General&nbsp;&nbsp;&nbsp;&nbsp;Institution"
+                        }
+
                         if (row.msg_type == 1) {
-                            return `<i class="fa fa-globe-asia"></i> ${row.reason}`
+                            return `<div>
+                                        <div class="d-flex align-items-center"><i class="fa fa-globe-asia"></i> ${row.reason}</div>
+                                        <div class="d-flex justify-content-center align-items-center">${patient_type}</div>
+                                    </div>`
                         } else if (row.msg_type == 0) {
-                            return `<i class="fa fa-person-booth"></i> ${row.reason}`
+                            return `<div>
+                                        <div class="d-flex align-items-center"><i class="fa fa-person-booth"></i> ${row.reason}</div>
+                                        <div class="d-flex justify-content-center align-items-center">${patient_type}</div>
+                                    </div>`
                         }
                     }
                 },
@@ -649,7 +684,7 @@
                     data: 'cel',
                     render: function(data, type, row) {
                         return `<div>
-                                    <p class='text-danger'>${row.cel ? row.cel : ''}</p>
+                                    <p class='text-danger'>${row.cel ? formatPhone(row.cel) : ''}</p>
                                     <a href="mailto:${row.email ? row.email : 'info@doctorpimentel.com'}" class="text-primary">${row.email ? row.email : ''}</a>
                                 </div>`
                     }
@@ -712,7 +747,7 @@
                     $("#view_name").html(data['name']);
                     $("#view_dob").html(new Date(data['dob']).toLocaleDateString());
                     $("#view_email").html(data['email']);
-                    $("#view_cel").html(data['cel']);
+                    $("#view_cel").html(data['cel'] ? formatPhone(data['cel']) : '');
                     $("#view_lang").html(data['lang'] == 'en' ? 'English' : 'Spanish');
                     $("#view_subject").html(data['subject']);
                     $("#view_message").html(data['message']);

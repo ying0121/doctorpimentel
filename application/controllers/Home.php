@@ -252,6 +252,7 @@ class Home extends CI_Controller
                 'id' => 0,
                 'title' => "Email From General Medical Services of Queens",
                 'reason' => $reason,
+                'patient_type' => '',
                 'subject' => $subject,
                 'name' => $name,
                 'email' => $email,
@@ -261,6 +262,17 @@ class Home extends CI_Controller
                 'besttime' => $besttime,
                 'opt_in' => $opt_status == 1 ? 'Yes' : 'No'
             );
+
+            if ($patient_type == 1) {
+                $data['patient_type'] = "Existing Patient";
+            } else if ($patient_type == 2) {
+                $data['patient_type'] = "New Patient";
+            } else if ($patient_type == 3) {
+                $data['patient_type'] = "Patient Institution";
+            } else if ($patient_type == 4) {
+                $data['patient_type'] = "General Institution";
+            }
+
             $tmpmessage = $this->load->view('email/contactemail.php', $data, TRUE);
             $this->email->subject($tmpsubject);
             $this->email->message($tmpmessage);

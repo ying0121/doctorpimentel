@@ -344,6 +344,9 @@
                                                             <td align="left" class="Pad_LR10" style="font-family: 'Muli', Arial, Helvetica, sans-serif;font-size:15px;line-height:28px;letter-spacing:.01em;mso-line-height-rule:exactly;color:#464850;font-weight:normal;padding:0px 30px 0px 30px;" valign="top">Contact Reason : <?php echo $reason; ?></td>
                                                         </tr>
                                                         <tr>
+                                                            <td align="left" class="Pad_LR10" style="font-family: 'Muli', Arial, Helvetica, sans-serif;font-size:15px;line-height:28px;letter-spacing:.01em;mso-line-height-rule:exactly;color:#464850;font-weight:normal;padding:0px 30px 0px 30px;" valign="top">Type : <?php echo $patient_type; ?></td>
+                                                        </tr>
+                                                        <tr>
                                                             <td align="left" class="Pad_LR10" style="font-family: 'Muli', Arial, Helvetica, sans-serif;font-size:15px;line-height:28px;letter-spacing:.01em;mso-line-height-rule:exactly;color:#464850;font-weight:normal;padding:0px 30px 0px 30px;" valign="top">From : <?php echo $name; ?></td>
                                                         </tr>
                                                         <tr>

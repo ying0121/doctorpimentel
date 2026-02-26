@@ -250,9 +250,22 @@ class Contacts extends CI_Controller
 		$this->email->initialize($config);
 		$this->email->from($this->config->item('smtp_user'));
 		$this->email->to($contact['email']);
+
+		$pt_type = "";
+		if ($contact['patient_type'] == 1) {
+			$pt_type = "Existing Patient";
+		} else if ($contact['patient_type'] == 2) {
+			$pt_type = "New Patient";
+		} else if ($contact['patient_type'] == 3) {
+			$pt_type = "Patient Institution";
+		} else if ($contact['patient_type'] == 4) {
+			$pt_type = "General Institution";
+		}
+
 		$data = array(
 			'id' => 0,
 			'title' => "Email From General Medical Services of Queens",
+			'patient_type' => $pt_type,
 			'reason' => $contact['reason'],
 			'subject' => "Message From " . $contact['name'],
 			'name' => $contact['name'],
