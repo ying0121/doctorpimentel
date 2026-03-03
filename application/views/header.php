@@ -23,25 +23,17 @@
                 <?php endif ?>
                 <?php if ($area_toggle['vault_area']): ?>
                     <?php if ($this->session->userdata('patient_id') == '' || $this->session->userdata('patient_name') == null): ?>
-                        <a href="<?php echo base_url() ?>PtLogin"
-                            class="themesflat-button font-default process px-3 mx-1"><span><?php echo $component_text['link_sign_in']; ?></span></a>
-                    <?php elseif ($this->session->userdata('patient_id') > 0 && $this->session->userdata('security') == 1): ?>
-                        <a href="<?php echo base_url() ?>PtLogin/logout"
-                            class="themesflat-button font-default process px-3 mx-1"><span><?php echo $component_text['link_sign_out']; ?></span></a>
+                        <a href="<?php echo base_url() ?>PtLogin" class="themesflat-button font-default process px-3 mx-1"><span><?php echo $component_text['link_sign_in']; ?></span></a>                        
                     <?php endif ?>
                 <?php endif ?>
             </div>
             <div class="d-flex ml-1">
                 <div class="d-flex align-items-center">
-                    <div class="btn btn-secondary p-1 langbtn <?php echo $this->session->userdata('language') == 'en' ? 'active' : '' ?>"
-                        onclick="setLang('en');">
-                        <img src="<?php echo base_url() ?>assets/images/flags/en.png"
-                            style="width: 20px; height: 20px;" />
+                    <div class="btn btn-secondary p-1 langbtn <?php echo $this->session->userdata('language') == 'en' ? 'active' : '' ?>" onclick="setLang('en');">
+                        <img src="<?php echo base_url() ?>assets/images/flags/en.png" style="width: 20px; height: 20px;" />
                     </div>
-                    <div class="btn btn-secondary p-1 langbtn <?php echo $this->session->userdata('language') == 'en' ? '' : 'active' ?>"
-                        onclick="setLang('es');">
-                        <img src="<?php echo base_url() ?>assets/images/flags/es.png"
-                            style="width: 20px; height: 20px;" />
+                    <div class="btn btn-secondary p-1 langbtn <?php echo $this->session->userdata('language') == 'en' ? '' : 'active' ?>" onclick="setLang('es');">
+                        <img src="<?php echo base_url() ?>assets/images/flags/es.png" style="width: 20px; height: 20px;" />
                     </div>
                     <?php if ($this->session->userdata('patient_id') > 0 && $this->session->userdata('security') == 1): ?>
                         <div class="d-flex justify-content-center align-items-center mx-3">
@@ -209,6 +201,11 @@
     <div class="modal modal-fade" tabindex="-1" role="dialog" aria-hidden="true" id="info-manage-modal">
         <div class="modal-dialog modal-sm">
             <div class="modal-content">
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <h4 class="modal-title"></h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
                 <div class="modal-body">
                     <div class="row justify-content-center">
                         <div class="col-md-12 d-flex justify-content-center" style="margin-bottom: 42px;">
@@ -234,7 +231,7 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-light-danger" data-dismiss="modal"><?php echo $component_text['c_item_close'] ?></button>
+                    <a href="<?php echo base_url() ?>PtLogin/logout" class="themesflat-button font-default process px-3 mx-1"><span><?php echo $component_text['link_sign_out']; ?></span></a>
                 </div>
             </div>
         </div>
