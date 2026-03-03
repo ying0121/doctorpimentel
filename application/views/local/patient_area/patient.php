@@ -446,7 +446,7 @@
             "columns": [{
                     data: 'patient_id',
                     render: function(data, type, row) {
-                        return `<div class = "d-flex align-items-center" style = "height:40px;">` + row.id + `</div>`;
+                        return `<div class = "d-flex align-items-center" style = "height:40px;">` + row.patient_id + `</div>`;
                     }
                 },
                 {

@@ -336,8 +336,11 @@
 
         #contact_form_wrapper {
             background-color: #091D3E;
-            overflow-y: hidden;
-            transition: height 1s ease;
+            overflow: visible;
+        }
+
+        #contact_form_slide_wrapper {
+            overflow: hidden;
         }
 
         p {
@@ -435,7 +438,8 @@
                                     </div>
                                     <div id="contact_form_wrapper" class="container-fluid d-flex justify-content-center">
                                         <div class="form-contact-us fl-st-title" style="width:85%;">
-                                            <div id="contact_form" class="d-none">
+                                            <div id="contact_form_slide_wrapper" style="display: none;">
+                                            <div id="contact_form">
                                                 <div class="themesflat-spacer clearfix" data-desktop="50" data-mobile="20" data-smobile="20" style="height:106px"></div>
                                                 <div class="title-heading text-color-white">
                                                     <?php echo $component_text['menu_contact'] ?>
@@ -527,6 +531,7 @@
                                                     </div>
                                                 </form>
                                                 <!-- <div class="themesflat-spacer clearfix" data-desktop="106" data-mobile="40" data-smobile="40" style="height:106px"></div> -->
+                                            </div>
                                             </div>
                                         </div>
                                     </div>
@@ -929,11 +934,13 @@
         })
 
         $("#make_appointment_toggle").click(function() {
-            console.log($("#contact_form").hasClass("d-none"))
-            if ($("#contact_form").hasClass("d-none")) {
-                $("#contact_form").removeClass("d-none")
+            var $slideWrapper = $("#contact_form_slide_wrapper");
+            if ($slideWrapper.is(":hidden")) {
+                $slideWrapper.slideDown(400, function() {
+                    $("#contact_form")[0].scrollIntoView({ behavior: "smooth", block: "start" });
+                });
             } else {
-                $("#contact_form").addClass("d-none")
+                $slideWrapper.slideUp(400);
             }
         });
 
