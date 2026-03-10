@@ -101,76 +101,58 @@
             </div>
         </div>
         <?php if (count($alerts) > 0): ?>
-            <div class="row justify-content-center pb-3">
-                <?php
-                $cookie_data = json_decode(get_cookie('alert'), true);
-                if ($cookie_data && ($cookie_data['title'] == $alerts[0]['title'] && $cookie_data['id'] == $alerts[0]['id']) && $alerts[0]['type'] == 'once'):
-                ?>
-                <?php elseif (date('Y-m-d H:i:s', strtotime($alerts[0]['end'])) >= date('Y-m-d H:i:s') && $alerts[0]['status'] == 1): ?>
-                    <div class="col-md-9">
-                        <p id="alert-title" class="alert-title mb-3 text-danger">
-                            <?php if (count($alerts) > 0) {
-                                if ($this->session->userdata('language') == "en") echo $alerts[0]['title'];
-                                else echo $alerts[0]['title_es'];
-                            } ?>
-                        </p>
-                        <span id="alert-message" class="alert-message text-danger">
-                            <?php if (count($alerts) > 0) {
-                                if ($this->session->userdata('language') == "en") echo $alerts[0]['message'];
-                                else echo $alerts[0]['message_es'];
-                            } ?>
-                        </span>
-                        <div class="popup text-light-primary ml-10"><?php echo $component_text['btn_read_more'] ?> >>
-                            <span class="popuptext" id="alert-details">
-                                <div class="row pt-2">
-                                    <?php if ($alerts[0]["image"] != ""): ?>
-                                        <div class="alert-image-container col-md-6 d-flex justify-content-center align-items-center">
-                                            <img class="alert-image" src="<?php echo base_url() ?>/assets/images/alerts/<?php echo $alerts[0]["image"] ?>" width="100%" />
-                                        </div>
-                                    <?php endif ?>
-                                    <div class="<?php if ($alerts[0]["image"] == "") echo "col-md-12";
-                                                else echo "col-md-6" ?> align-items-center">
-                                        <h3 class="text-white py-2" style="font-size: xx-large;">
-                                            <?php if ($this->session->userdata('language') == "en") echo $alerts[0]["title"];
-                                            else echo $alerts[0]["title_es"];
-                                            ?>
-                                        </h3>
-                                        <h3 class="text-white py-2" style="font-size: larger;">
-                                            <?php if ($this->session->userdata('language') == "en") echo $alerts[0]["message"];
-                                            else echo $alerts[0]["message_es"];
-                                            ?>
-                                        </h3>
-                                    </div>
-                                    <div class="col-md-12">
-                                        <h3 class="text-white py-4" style="font-size: large;">
-                                            <?php if ($this->session->userdata('language') == "en") echo $alerts[0]["description"];
-                                            else echo $alerts[0]["description_es"];
-                                            ?>
-                                        </h3>
-                                    </div>
+            <?php
+            $cookie_data = json_decode(get_cookie('alert'), true);
+            if (!($cookie_data && ($cookie_data['title'] == $alerts[0]['title'] && $cookie_data['id'] == $alerts[0]['id']) && $alerts[0]['type'] == 'once') && date('Y-m-d H:i:s', strtotime($alerts[0]['end'])) >= date('Y-m-d H:i:s') && $alerts[0]['status'] == 1):
+            ?>
+            <div class="header-alert-bar">
+                <span class="header-alert-icon"><i class="fa fa-exclamation-circle"></i></span>
+                <span class="header-alert-label">Notification:</span>
+                <span class="header-alert-text"><?php echo $this->session->userdata('language') == "en" ? $alerts[0]['title'] : $alerts[0]['title_es']; ?></span>
+                <div class="popup header-alert-read-more"><?php echo $component_text['btn_read_more'] ?> >>
+                    <span class="popuptext" id="alert-details">
+                        <div class="row pt-2">
+                            <?php if ($alerts[0]["image"] != ""): ?>
+                                <div class="alert-image-container col-md-6 d-flex justify-content-center align-items-center">
+                                    <img class="alert-image" src="<?php echo base_url() ?>/assets/images/alerts/<?php echo $alerts[0]["image"] ?>" width="100%" />
                                 </div>
-                            </span>
+                            <?php endif ?>
+                            <div class="<?php if ($alerts[0]["image"] == "") echo "col-md-12";
+                                        else echo "col-md-6" ?> align-items-center">
+                                <h3 class="text-white py-2" style="font-size: xx-large;">
+                                    <?php echo $this->session->userdata('language') == "en" ? $alerts[0]["title"] : $alerts[0]["title_es"]; ?>
+                                </h3>
+                                <h3 class="text-white py-2" style="font-size: larger;">
+                                    <?php echo $this->session->userdata('language') == "en" ? $alerts[0]["message"] : $alerts[0]["message_es"]; ?>
+                                </h3>
+                            </div>
+                            <div class="col-md-12">
+                                <h3 class="text-white py-4" style="font-size: large;">
+                                    <?php echo $this->session->userdata('language') == "en" ? $alerts[0]["description"] : $alerts[0]["description_es"]; ?>
+                                </h3>
+                            </div>
                         </div>
-                    </div>
-                <?php endif ?>
-                <?php
-                $expireTime = (new DateTime($alerts[0]['end']))->getTimestamp() - time();
-                $this->input->set_cookie(array(
-                    "name" => "alert",
-                    "value" => json_encode(array(
-                        "title" => $alerts[0]['title'],
-                        "message" => $alerts[0]['message'],
-                        "id" => $alerts[0]['id'],
-                    )),
-                    "expire" => $expireTime,
-                    "domain" => "",
-                    "path" => "/",
-                    "prefix" => "",
-                    "secure" => false
-                ));
-                ?>
+                    </span>
+                </div>
             </div>
-        <?php endif ?>
+            <?php endif; ?>
+            <?php
+            $expireTime = (new DateTime($alerts[0]['end']))->getTimestamp() - time();
+            $this->input->set_cookie(array(
+                "name" => "alert",
+                "value" => json_encode(array(
+                    "title" => $alerts[0]['title'],
+                    "message" => $alerts[0]['message'],
+                    "id" => $alerts[0]['id'],
+                )),
+                "expire" => $expireTime,
+                "domain" => "",
+                "path" => "/",
+                "prefix" => "",
+                "secure" => false
+            ));
+            ?>
+        <?php endif; ?>
     </div>
 </header>
 <div style="position:relative;">
@@ -522,6 +504,47 @@
 
     .alert-message {
         font-size: x-large;
+    }
+
+    /* Alert bar at top of header */
+    .header-alert-bar {
+        display: flex;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 8px;
+        padding: 10px 16px;
+        background-color: #ffebee;
+        border-radius: 6px;
+        margin: 0 12px 10px;
+        border: 1px solid #ffcdd2;
+    }
+    .header-alert-icon {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 24px;
+        height: 24px;
+        min-width: 24px;
+        border-radius: 50%;
+        background-color: #d32f2f;
+        color: #fff;
+        font-size: 14px;
+    }
+    .header-alert-label {
+        font-weight: 600;
+        color: #333;
+    }
+    .header-alert-text {
+        color: #333;
+        font-weight: 500;
+    }
+    .header-alert-read-more {
+        margin-left: 20px;
+        color: #00aebd;
+        font-size: 0.9rem;
+    }
+    .header-alert-read-more:hover {
+        text-decoration: underline;
     }
 
     /* Popup container - can be anything you want */

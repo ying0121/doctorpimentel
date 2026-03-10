@@ -182,7 +182,7 @@ if ($tmpmenu == NULL)
                         </a>
                     </li>
                 <?php endif ?>
-                <?php if ($this->session->userdata('usertype') == 1): ?>
+                <?php if (in_array("Managers", $tmpmenu)): ?>
                     <li class="menu-item <?php echo $sideitem == 'manager' ? 'menu-item-active' : ''; ?>" aria-haspopup="true">
                         <a href="<?php echo base_url(); ?>local/Manager" class="menu-link">
                             <span class="menu-icon">

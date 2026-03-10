@@ -3,6 +3,135 @@
 
 <head>
     <?php $this->load->view('local/header'); ?>
+    <style>
+        .alert-image-preview-wrapper {
+            max-width: 100%;
+            border: 1px solid #e2e5e8;
+            border-radius: 4px;
+            padding: 8px;
+            background: #f9f9f9;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .alert-image-preview {
+            max-width: 100%;
+            max-height: 280px;
+            display: block;
+            object-fit: contain;
+        }
+        /* Alert preview popup - landing page style */
+        .alert-preview-popup-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: transparent;
+            z-index: 1040;
+        }
+        .alert-preview-popuptext {
+            visibility: hidden;
+            min-width: 360px;
+            max-width: 560px;
+            background: #fff;
+            color: #333;
+            text-align: left;
+            border-radius: 12px;
+            overflow: hidden;
+            position: fixed;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 1050;
+            box-shadow: 0 4px 24px rgba(0,0,0,0.2);
+        }
+        .alert-preview-popuptext.alert-preview-show {
+            visibility: visible;
+            animation: alertPreviewFadeIn 0.2s ease;
+        }
+        @keyframes alertPreviewFadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        .alert-preview-popup-header {
+            background: #f5f5f5;
+            color: #333;
+            padding: 12px 16px;
+            font-weight: 600;
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .alert-preview-popup-close {
+            background: none;
+            border: none;
+            color: #666;
+            font-size: 22px;
+            line-height: 1;
+            cursor: pointer;
+            padding: 0 4px;
+            opacity: 0.8;
+        }
+        .alert-preview-popup-close:hover {
+            opacity: 1;
+            color: #333;
+        }
+        .alert-preview-popup-body {
+            background: #091D3E;
+            color: #fff;
+            padding: 20px 16px;
+        }
+        .alert-preview-popup-body .alert-preview-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 8px;
+        }
+        .alert-preview-popup-body .alert-preview-message {
+            font-size: 1rem;
+            color: #fff;
+            margin-bottom: 8px;
+        }
+        .alert-preview-read-toggle {
+            color: #33b9cb;
+            cursor: pointer;
+            font-size: 0.95rem;
+            margin-bottom: 16px;
+        }
+        .alert-preview-read-toggle:hover {
+            text-decoration: underline;
+        }
+        .alert-preview-img-wrap {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 16px 0;
+        }
+        .alert-preview-img {
+            max-width: 100%;
+            max-height: 280px;
+            object-fit: contain;
+            border-radius: 6px;
+        }
+        .alert-preview-description {
+            font-size: 1rem;
+            color: #fff;
+            line-height: 1.5;
+            margin-top: 12px;
+        }
+        .alert-preview-description.d-none {
+            display: none !important;
+        }
+        .alert-preview-popup-footer {
+            background: #091D3E;
+            color: #fff;
+            padding: 10px 16px;
+            font-size: 0.9rem;
+            border-top: 1px solid rgba(255,255,255,0.1);
+        }
+    </style>
 </head>
 
 <body id="kt_body" class="header-fixed header-mobile-fixed subheader-enabled subheader-fixed aside-enabled aside-fixed aside-minimize-hoverable page-loading">
@@ -31,7 +160,7 @@
                                         <th>Alert Type</th>
                                         <th>Send Status</th>
                                         <th>Created By</th>
-                                        <th style="width:150px;">Action</th>
+                                        <th style="width:180px;">Action</th>
                                     </thead>
                                     <tbody></tbody>
                                 </table>
@@ -123,8 +252,11 @@
                             </div>
                         </div>
                         <div class="col-md-8 mb-5 image-component d-none">
-                            <div class="custom-file form-group d-flex justify-content-start align-items-center">
-                                <h6 id="alert-image-path"></h6>
+                            <div class="form-group">
+                                <h6 id="alert-image-path" class="mb-2"></h6>
+                                <div id="alert-image-preview-wrapper" class="alert-image-preview-wrapper d-none">
+                                    <img id="alert-image-preview" src="" alt="Image preview" class="alert-image-preview" />
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -149,6 +281,30 @@
         </div>
     </div>
     <!-- Alert Modal End -->
+
+    <!-- Alert Preview Popup (landing page style) -->
+    <div id="alert_preview_popup_overlay" class="alert-preview-popup-overlay d-none"></div>
+    <div id="alert_preview_popup" class="alert-preview-popuptext">
+        <div class="alert-preview-popup-header">
+            <span>Alert Preview (as on landing page)</span>
+            <button type="button" class="alert-preview-popup-close" aria-label="Close">&times;</button>
+        </div>
+        <div class="alert-preview-popup-body">
+            <p id="alert_preview_title" class="alert-preview-title"></p>
+            <div id="alert_preview_message_row">
+                <span id="alert_preview_message" class="alert-preview-message d-block"></span>
+                <a href="javascript:;" id="alert_preview_read_toggle" class="alert-preview-read-toggle d-inline-block">Read more &gt;&gt;</a>
+            </div>
+            <div id="alert_preview_image_wrapper" class="alert-preview-img-wrap d-none">
+                <img id="alert_preview_image" src="" alt="Alert" class="alert-preview-img" />
+            </div>
+            <div id="alert_preview_description" class="alert-preview-description d-none"></div>
+        </div>
+        <div class="alert-preview-popup-footer">
+            <span id="alert_preview_footer_title"></span>
+        </div>
+    </div>
+    <!-- Alert Preview Popup End -->
 </body>
 <script>
     $(document).ready(function() {
@@ -213,6 +369,7 @@
                     data: "id",
                     render: function(data, type, row) {
                         return `<div idkey="${row.id}">
+                            <span class="btn btn-icon btn-sm btn-light-info alert_preview_btn" title="Preview"><i class="fas fa-eye"></i></span>
                             <span class="btn btn-icon btn-sm btn-light-primary alert_edit_btn"><i class="fas fa-edit"></i></span>
                             <span class="btn btn-icon btn-sm btn-light-danger  alert_delete_btn"><i class="fas fa-trash"></i></span>
                         </div>`
@@ -238,6 +395,9 @@
             $("#alert-image-status").prop("checked", false)
             $(".image-component").addClass("d-none")
             $("#alert-image-path").text("")
+            $("#alert-image").val("")
+            $("#alert-image-preview").attr("src", "")
+            $("#alert-image-preview-wrapper").addClass("d-none")
 
             $("#alert_modal").modal("show")
         })
@@ -284,6 +444,56 @@
             })
         })
 
+        $(document).on("click", ".alert_preview_btn", function() {
+            var id = $(this).parent().attr("idkey");
+            $.post({
+                url: "<?php echo base_url() ?>local/Alert/chosen",
+                method: "POST",
+                data: { id: id },
+                dataType: "json",
+                success: function(res) {
+                    $("#alert_preview_title").text($("<div>").html(res.title || "").text());
+                    $("#alert_preview_message").html(res.message || "");
+                    var hasDesc = (res.description && $("<div>").html(res.description).text().trim().length > 0);
+                    $("#alert_preview_description").html(res.description || "").addClass("d-none");
+                    $("#alert_preview_read_toggle").text("Read more >>").data("expanded", false).toggle(hasDesc);
+                    if (res.image) {
+                        $("#alert_preview_image").attr("src", "<?php echo base_url(); ?>assets/images/alerts/" + res.image);
+                        $("#alert_preview_image_wrapper").removeClass("d-none");
+                    } else {
+                        $("#alert_preview_image").attr("src", "");
+                        $("#alert_preview_image_wrapper").addClass("d-none");
+                    }
+                    $("#alert_preview_footer_title").text($("<div>").html(res.title || "").text());
+                    $("#alert_preview_popup").addClass("alert-preview-show");
+                    $("#alert_preview_popup_overlay").removeClass("d-none");
+                },
+                error: function() {
+                    toastr.error("Failed to load alert for preview.");
+                }
+            });
+        });
+
+        $("#alert_preview_read_toggle").on("click", function(e) {
+            e.preventDefault();
+            var $desc = $("#alert_preview_description");
+            var expanded = $(this).data("expanded");
+            if (expanded) {
+                $desc.addClass("d-none");
+                $(this).text("Read more >>").data("expanded", false);
+            } else {
+                $desc.removeClass("d-none");
+                $(this).text("<< Read less").data("expanded", true);
+            }
+        });
+
+        function closeAlertPreviewPopup() {
+            $("#alert_preview_popup").removeClass("alert-preview-show");
+            $("#alert_preview_popup_overlay").addClass("d-none");
+        }
+        $("#alert_preview_popup_overlay").on("click", closeAlertPreviewPopup);
+        $(".alert-preview-popup-close").on("click", closeAlertPreviewPopup);
+
         $(document).on("click", ".alert_edit_btn", function() {
             $("#alert-modal_type").val("1")
             $("#alert-chosen_id").val($(this).parent().attr("idkey"))
@@ -307,11 +517,23 @@
                     $("#alert-image-status").prop("checked", res.image_actived == 1 ? true : false)
                     if (res.image_actived == 1) {
                         $(".image-component").removeClass("d-none")
+                        if (res.image) {
+                            var imageUrl = "<?php echo base_url(); ?>assets/images/alerts/" + res.image;
+                            $("#alert-image-preview").attr("src", imageUrl)
+                            $("#alert-image-preview-wrapper").removeClass("d-none")
+                            $("#alert-image-path").text(res.image)
+                        } else {
+                            $("#alert-image-preview").attr("src", "")
+                            $("#alert-image-preview-wrapper").addClass("d-none")
+                            $("#alert-image-path").text("")
+                        }
                     } else {
                         $(".image-component").addClass("d-none")
+                        $("#alert-image-preview").attr("src", "")
+                        $("#alert-image-preview-wrapper").addClass("d-none")
                     }
+                    $("#alert-image").val("")
                     res.type == "once" ? $("#alert-type").prop("checked", true) : $("#alert-type").prop("checked", false)
-                    $("#alert-image-path").text(res.image)
 
                     $("#alert_modal").modal("show")
                 },
@@ -357,8 +579,32 @@
         $("#alert-image-status").on("change", function() {
             if ($(this).prop("checked") == true) {
                 $(".image-component").removeClass("d-none")
+                if ($("#alert-image-preview").attr("src")) {
+                    $("#alert-image-preview-wrapper").removeClass("d-none")
+                }
             } else {
                 $(".image-component").addClass("d-none")
+                $("#alert-image-preview").attr("src", "")
+                $("#alert-image-preview-wrapper").addClass("d-none")
+                $("#alert-image-path").text("")
+                $("#alert-image").val("")
+            }
+        })
+
+        $("#alert-image").on("change", function() {
+            var file = this.files && this.files[0]
+            if (file && file.type.indexOf("image") !== -1) {
+                var reader = new FileReader()
+                reader.onload = function(e) {
+                    $("#alert-image-preview").attr("src", e.target.result)
+                    $("#alert-image-preview-wrapper").removeClass("d-none")
+                    $("#alert-image-path").text(file.name)
+                }
+                reader.readAsDataURL(file)
+            } else {
+                $("#alert-image-preview").attr("src", "")
+                $("#alert-image-preview-wrapper").addClass("d-none")
+                $("#alert-image-path").text("")
             }
         })
     })

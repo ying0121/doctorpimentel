@@ -328,6 +328,9 @@
                             <input type="checkbox" style="width:20px; height:20px;" id="Setting" class="mx-1"> Setting
                         </div>
                         <div class="d-flex my-3 align-items-center col-4">
+                            <input type="checkbox" style="width:20px; height:20px;" id="Managers" class="mx-1"> Managers
+                        </div>
+                        <div class="d-flex my-3 align-items-center col-4">
                             <input type="checkbox" style="width:20px; height:20px;" id="Alert" class="mx-1"> Alert
                         </div>
                         <div class="d-flex my-3 align-items-center col-4">
